@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cake_app/screens/details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,6 +15,7 @@ class SpecsScreen extends StatefulWidget {
 
 class _SpecsScreenState extends State<SpecsScreen> {
   bool _isEggless = false;
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -91,6 +93,9 @@ class _SpecsScreenState extends State<SpecsScreen> {
                                   ],
                                 ),
                               ),
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
                             )
                           ],
                         ),
@@ -445,87 +450,112 @@ class _SpecsScreenState extends State<SpecsScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.2,
-                      )
+                        height: 20,
+                      ),
+                      Container(
+                        height: 100,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).accentColor,
+                          border: Border.all(
+                            color: Theme.of(context).primaryColor,
+                            width: 5,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 20,
+                              spreadRadius: 3,
+                              offset: Offset(1, 1),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Text(
+                              'TOTAL AMOUNT = ₹ 400',
+                              style: MediaQuery.of(context).size.width < 600
+                                  ? Theme.of(context)
+                                      .primaryTextTheme
+                                      .bodyText1
+                                      .copyWith(
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                      )
+                                  : Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline5,
+                            ),
+                            MediaQuery.of(context).size.width < 600
+                                ? InkWell(
+                                    child: Container(
+                                      padding: EdgeInsets.all(5),
+                                      child: Icon(
+                                        Icons.done,
+                                        color: Colors.white,
+                                      ),
+                                      height: 50,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).primaryColor,
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              blurRadius: 10,
+                                              spreadRadius: 0.1),
+                                        ],
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (ctx) => UserDetailsScreen(),
+                                        ),
+                                      );
+                                    },
+                                  )
+                                : CommonButton(
+                                    title: 'Check Out',
+                                    borderRadius: 30,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width < 600
+                                            ? 16
+                                            : 26,
+                                    width:
+                                        MediaQuery.of(context).size.width < 600
+                                            ? 200
+                                            : 250,
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Theme.of(context).primaryColor,
+                                        Theme.of(context).primaryColor,
+                                      ],
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (ctx) => UserDetailsScreen(),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
                     ],
                   ),
                 ),
               ),
             ),
-            Positioned(
-              bottom: 20,
-              left: MediaQuery.of(context).size.width * 0.05,
-              child: Container(
-                height: 100,
-                width: MediaQuery.of(context).size.width * 0.9,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).accentColor,
-                  border: Border.all(
-                    color: Theme.of(context).primaryColor,
-                    width: 5,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 20,
-                      spreadRadius: 3,
-                      offset: Offset(1, 1),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text(
-                      'TOTAL AMOUNT = ₹ 400',
-                      style: MediaQuery.of(context).size.width < 600
-                          ? Theme.of(context)
-                              .primaryTextTheme
-                              .bodyText1
-                              .copyWith(
-                                fontSize: 16,
-                                color: Colors.white,
-                              )
-                          : Theme.of(context).primaryTextTheme.headline5,
-                    ),
-                    MediaQuery.of(context).size.width < 600
-                        ? Container(
-                            padding: EdgeInsets.all(5),
-                            child: Icon(
-                              Icons.done,
-                              color: Colors.white,
-                            ),
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(blurRadius: 10, spreadRadius: 0.1),
-                              ],
-                            ),
-                          )
-                        : CommonButton(
-                            title: 'Check Out',
-                            borderRadius: 30,
-                            fontSize: MediaQuery.of(context).size.width < 600
-                                ? 16
-                                : 26,
-                            width: MediaQuery.of(context).size.width < 600
-                                ? 200
-                                : 250,
-                            gradient: LinearGradient(
-                              colors: [
-                                Theme.of(context).primaryColor,
-                                Theme.of(context).primaryColor,
-                              ],
-                            ),
-                            onPressed: () {},
-                          ),
-                  ],
-                ),
-              ),
-            ),
+            // Positioned(
+            //   bottom: 20,
+            //   left: MediaQuery.of(context).size.width * 0.05,
+            //   child:
+            // ),
           ],
         ),
       ),

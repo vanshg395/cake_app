@@ -1,3 +1,4 @@
+import 'package:cake_app/screens/specs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -77,6 +78,9 @@ class CatalogueScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
                           )
                         ],
                       ),
@@ -97,30 +101,75 @@ class CatalogueScreen extends StatelessWidget {
                             CatalogueCard(
                               name: 'Black Forest',
                               image: 'assets/img/cake.svg',
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => SpecsScreen(),
+                                  ),
+                                );
+                              },
                             ),
                             CatalogueCard(
                               name: 'Black Forest',
                               image: 'assets/img/cake.svg',
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => SpecsScreen(),
+                                  ),
+                                );
+                              },
                             ),
                             CatalogueCard(
                               name: 'Black Forest',
                               image: 'assets/img/cake.svg',
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => SpecsScreen(),
+                                  ),
+                                );
+                              },
                             ),
                             CatalogueCard(
                               name: 'Black Forest',
                               image: 'assets/img/cake.svg',
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => SpecsScreen(),
+                                  ),
+                                );
+                              },
                             ),
                             CatalogueCard(
                               name: 'Black Forest',
                               image: 'assets/img/cake.svg',
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => SpecsScreen(),
+                                  ),
+                                );
+                              },
                             ),
                             CatalogueCard(
                               name: 'Black Forest',
                               image: 'assets/img/cake.svg',
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => SpecsScreen(),
+                                  ),
+                                );
+                              },
                             ),
                           ],
                         ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                   ],
                 ),

@@ -1,3 +1,4 @@
+import 'package:cake_app/screens/catalogue_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -72,16 +73,40 @@ class MenuScreen extends StatelessWidget {
                           MenuCard(
                             image: 'assets/img/cake.svg',
                             title: 'Regular',
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) => CatalogueScreen(),
+                                ),
+                              );
+                            },
                           ),
                           MenuCard(
                             image: 'assets/img/cake.svg',
                             title: 'Shape',
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) => CatalogueScreen(),
+                                ),
+                              );
+                            },
                           ),
                           MenuCard(
                             image: 'assets/img/cake.svg',
                             title: 'Photo',
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) => CatalogueScreen(),
+                                ),
+                              );
+                            },
                           ),
                         ],
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                     ],
                   ),

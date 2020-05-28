@@ -1,3 +1,4 @@
+import 'package:cake_app/screens/menu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -147,7 +148,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Color(0xFFA334F4),
                                 ],
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => MenuScreen(),
+                                  ),
+                                );
+                              },
                             ),
                           ],
                         ),

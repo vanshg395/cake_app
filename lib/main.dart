@@ -6,6 +6,7 @@ import './screens/menu_screen.dart';
 import './screens/catalogue_screen.dart';
 import './screens/specs_screen.dart';
 import './screens/details_screen.dart';
+import './screens/order_copy_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: UserDetailsScreen(),
+      home: LoginScreen(),
     );
   }
 }

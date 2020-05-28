@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cake_app/screens/order_copy_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -94,6 +95,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                   ],
                                 ),
                               ),
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
                             )
                           ],
                         ),
@@ -114,18 +118,17 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                 children: <Widget>[
                                   Row(
                                     children: <Widget>[
-                                      Text(
-                                        'Name',
-                                        style:
-                                            MediaQuery.of(context).size.width <
-                                                    600
-                                                ? Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .headline5
-                                                : Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .headline4,
-                                      ),
+                                      Text('Name',
+                                          style: MediaQuery.of(context)
+                                                      .size
+                                                      .width <
+                                                  600
+                                              ? Theme.of(context)
+                                                  .primaryTextTheme
+                                                  .headline5
+                                              : Theme.of(context)
+                                                  .primaryTextTheme
+                                                  .headline4),
                                       Text(
                                         '*',
                                         style:
@@ -208,7 +211,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                         'Name',
                                         style: Theme.of(context)
                                             .primaryTextTheme
-                                            .headline4,
+                                            .headline4
+                                            .copyWith(fontSize: 30),
                                       ),
                                       Text(
                                         '*',
@@ -385,7 +389,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                         'Phone Number',
                                         style: Theme.of(context)
                                             .primaryTextTheme
-                                            .headline4,
+                                            .headline4
+                                            .copyWith(fontSize: 30),
                                       ),
                                       Text(
                                         '*',
@@ -543,7 +548,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                     'Email Address',
                                     style: Theme.of(context)
                                         .primaryTextTheme
-                                        .headline4,
+                                        .headline4
+                                        .copyWith(fontSize: 30),
                                   ),
                                   Spacer(),
                                   Container(
@@ -787,7 +793,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                     'Date of Birth',
                                     style: Theme.of(context)
                                         .primaryTextTheme
-                                        .headline4,
+                                        .headline4
+                                        .copyWith(fontSize: 30),
                                   ),
                                   Spacer(),
                                   Container(
@@ -1150,7 +1157,13 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                             Theme.of(context).primaryColor,
                           ],
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (ctx) => OrderCopyScreen(),
+                            ),
+                          );
+                        },
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.06,
