@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 
 import './screens/login_screen.dart';
 import './screens/menu_screen.dart';
+import './screens/catalogue_screen.dart';
+import './screens/specs_screen.dart';
+import './screens/details_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,6 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xFF1188E3),
         accentColor: Color(0xFF373737),
+        unselectedWidgetColor: Colors.white,
         primaryTextTheme: TextTheme(
           // headline1: TextStyle(
           //   // fontSize: 24,
@@ -30,13 +34,19 @@ class MyApp extends StatelessWidget {
             color: Colors.black,
             fontWeight: FontWeight.w800,
           ),
+          headline3: TextStyle(
+            color: Colors.white,
+          ),
+          headline4: TextStyle(
+            color: Colors.white,
+          ),
           bodyText1: TextStyle(
             color: Colors.black,
             fontSize: 20,
           ),
         ),
       ),
-      home: MenuScreen(),
+      home: UserDetailsScreen(),
     );
   }
 }

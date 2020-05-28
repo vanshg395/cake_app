@@ -12,42 +12,45 @@ class MenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.35,
-      width: MediaQuery.of(context).size.width * 0.35,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          color: Theme.of(context).primaryColor,
-          width: 5,
+    return InkWell(
+      child: Container(
+        height: 350,
+        width: 300,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: Theme.of(context).primaryColor,
+            width: 5,
+          ),
+        ),
+        child: Stack(
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: SvgPicture.asset(
+                image,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
+              bottom: 20,
+              left: 20,
+              child: CommonButton(
+                title: title,
+                borderRadius: 30,
+                gradient: LinearGradient(
+                  colors: [
+                    Color(0xFF2F7DA4),
+                    Color(0xFF315C91),
+                  ],
+                ),
+                onPressed: () {},
+              ),
+            ),
+          ],
         ),
       ),
-      child: Stack(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: SvgPicture.asset(
-              image,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            bottom: 20,
-            left: MediaQuery.of(context).size.width * 0.35 / 2 - 130,
-            child: CommonButton(
-              title: title,
-              borderRadius: 30,
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFF2F7DA4),
-                  Color(0xFF315C91),
-                ],
-              ),
-              onPressed: onTap,
-            ),
-          ),
-        ],
-      ),
+      onTap: onTap,
     );
   }
 }

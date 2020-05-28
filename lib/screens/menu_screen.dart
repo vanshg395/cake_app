@@ -20,25 +20,40 @@ class MenuScreen extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 height: double.infinity,
+                alignment: Alignment.center,
                 child: SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
                       Text(
                         'Just Bake',
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .headline2
-                            .copyWith(color: Theme.of(context).primaryColor),
+                        style: MediaQuery.of(context).size.width < 600
+                            ? Theme.of(context)
+                                .primaryTextTheme
+                                .headline3
+                                .copyWith(color: Theme.of(context).primaryColor)
+                            : Theme.of(context)
+                                .primaryTextTheme
+                                .headline2
+                                .copyWith(
+                                    color: Theme.of(context).primaryColor),
                       ),
                       Text(
                         'Welcome',
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .headline1
-                            .copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 84),
+                        style: MediaQuery.of(context).size.width < 600
+                            ? Theme.of(context)
+                                .primaryTextTheme
+                                .headline2
+                                .copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                )
+                            : Theme.of(context)
+                                .primaryTextTheme
+                                .headline1
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 84),
                       ),
                       Text(
                         'Choose an Option',
@@ -47,7 +62,8 @@ class MenuScreen extends StatelessWidget {
                             .bodyText1
                             .copyWith(color: Colors.white),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.04),
                       Wrap(
                         alignment: WrapAlignment.center,
                         spacing: 30,
