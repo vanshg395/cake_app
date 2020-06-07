@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CatalogueCard extends StatelessWidget {
   final Function onTap;
@@ -42,9 +42,14 @@ class CatalogueCard extends StatelessWidget {
                   height: constraints.maxHeight * 0.8,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: SvgPicture.asset(
-                      image,
+                    child: CachedNetworkImage(
+                      imageUrl: image,
                       fit: BoxFit.cover,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ),
                 ),
