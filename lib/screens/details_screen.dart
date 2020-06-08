@@ -46,6 +46,32 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       return;
     }
     print(_data);
+    bool _isConfirm = false;
+    await showDialog(
+      barrierDismissible: false,
+      context: context,
+      child: AlertDialog(
+        title: Text('Confirm'),
+        content: Text('Are you sure, you want to place the order?'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Yes'),
+            onPressed: () {
+              _isConfirm = true;
+              Navigator.of(context).pop();
+            },
+          ),
+          FlatButton(
+            child: Text('No'),
+            onPressed: () {
+              _isConfirm = false;
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+    if (!_isConfirm) return;
     showDialog(
       context: context,
       barrierDismissible: false,
