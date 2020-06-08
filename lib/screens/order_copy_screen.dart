@@ -1,10 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../widgets/common_button.dart';
 
 class OrderCopyScreen extends StatelessWidget {
+  final String name;
+  final String phone;
+  final String cakeType;
+  final double weight;
+  final int quantity;
+  final double price;
+  final bool isPhotoCake;
+  final int orderId;
+
+  OrderCopyScreen({
+    this.name,
+    this.phone,
+    this.cakeType,
+    this.weight,
+    this.quantity,
+    this.price,
+    this.isPhotoCake,
+    this.orderId,
+  });
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -115,7 +136,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        'XXXXXXXXXXXXXXXXXXXXXXXXXX',
+                                        name,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -139,7 +160,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        'XXXXXXXXXXXXX',
+                                        name,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -176,7 +197,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        '9876543210',
+                                        phone,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -200,7 +221,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        'XXXXXXXXXXXXX',
+                                        phone,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -237,7 +258,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        'XXXXXXXXXXXXXXXXX',
+                                        cakeType,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -261,7 +282,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        'XXXXXXXXXXXXX',
+                                        cakeType,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -298,7 +319,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        '1 KG',
+                                        weight.toString(),
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -322,7 +343,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        '1KG',
+                                        weight.toString(),
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -359,7 +380,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        '2',
+                                        quantity.toString(),
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -374,7 +395,7 @@ class OrderCopyScreen extends StatelessWidget {
                                 : Row(
                                     children: <Widget>[
                                       Text(
-                                        'WEIGHT - ',
+                                        'QUANTITY - ',
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -383,7 +404,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        '1KG',
+                                        quantity.toString(),
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -403,24 +424,91 @@ class OrderCopyScreen extends StatelessWidget {
                             SizedBox(
                               height: 20,
                             ),
-                            Center(
-                              child: CommonButton(
-                                title: 'Place Order',
-                                borderRadius: 30,
-                                fontSize:
-                                    MediaQuery.of(context).size.width < 600
-                                        ? 16
-                                        : 26,
-                                width: MediaQuery.of(context).size.width < 600
-                                    ? 200
-                                    : 250,
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Theme.of(context).primaryColor,
-                                    Theme.of(context).primaryColor,
-                                  ],
+                            MediaQuery.of(context).size.width < 600
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        'TOTAL AMOUNT',
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyText1
+                                            .copyWith(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w300,
+                                            ),
+                                      ),
+                                      Text(
+                                        price.toString(),
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyText1
+                                            .copyWith(
+                                              color: Colors.white,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                      ),
+                                    ],
+                                  )
+                                : Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'TOTAL AMOUNT - ',
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyText1
+                                            .copyWith(
+                                              color: Colors.white,
+                                            ),
+                                      ),
+                                      Text(
+                                        '₹ ' + price.toStringAsFixed(2),
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyText1
+                                            .copyWith(
+                                              color: Colors.white,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Divider(
+                              thickness: 1,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            if (isPhotoCake) ...[
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Center(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: QrImage(
+                                    backgroundColor: Colors.white,
+                                    padding: EdgeInsets.all(20),
+                                    data: 'https://www.google.com/?id=$orderId',
+                                    version: QrVersions.auto,
+                                    size: 250.0,
+                                  ),
                                 ),
-                                onPressed: () {},
+                              ),
+                            ],
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.1,
+                            ),
+                            Center(
+                              child: Text(
+                                'Your order has been placed.',
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline3,
                               ),
                             ),
                           ],

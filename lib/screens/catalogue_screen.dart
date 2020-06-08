@@ -153,71 +153,14 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                                         onTap: () {
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
-                                              builder: (ctx) => SpecsScreen(),
+                                              builder: (ctx) =>
+                                                  SpecsScreen(cake),
                                             ),
                                           );
                                         },
                                       ),
                                     )
                                     .toList(),
-                                // children: <Widget>[
-
-                                //   CatalogueCard(
-                                //     name: 'Black Forest',
-                                //     image: 'assets/img/cake.svg',
-                                //     onTap: () {
-                                //       Navigator.of(context).push(
-                                //         MaterialPageRoute(
-                                //           builder: (ctx) => SpecsScreen(),
-                                //         ),
-                                //       );
-                                //     },
-                                //   ),
-                                //   CatalogueCard(
-                                //     name: 'Black Forest',
-                                //     image: 'assets/img/cake.svg',
-                                //     onTap: () {
-                                //       Navigator.of(context).push(
-                                //         MaterialPageRoute(
-                                //           builder: (ctx) => SpecsScreen(),
-                                //         ),
-                                //       );
-                                //     },
-                                //   ),
-                                //   CatalogueCard(
-                                //     name: 'Black Forest',
-                                //     image: 'assets/img/cake.svg',
-                                //     onTap: () {
-                                //       Navigator.of(context).push(
-                                //         MaterialPageRoute(
-                                //           builder: (ctx) => SpecsScreen(),
-                                //         ),
-                                //       );
-                                //     },
-                                //   ),
-                                //   CatalogueCard(
-                                //     name: 'Black Forest',
-                                //     image: 'assets/img/cake.svg',
-                                //     onTap: () {
-                                //       Navigator.of(context).push(
-                                //         MaterialPageRoute(
-                                //           builder: (ctx) => SpecsScreen(),
-                                //         ),
-                                //       );
-                                //     },
-                                //   ),
-                                //   CatalogueCard(
-                                //     name: 'Black Forest',
-                                //     image: 'assets/img/cake.svg',
-                                //     onTap: () {
-                                //       Navigator.of(context).push(
-                                //         MaterialPageRoute(
-                                //           builder: (ctx) => SpecsScreen(),
-                                //         ),
-                                //       );
-                                //     },
-                                //   ),
-                                // ],
                               ),
                             ),
                           ),

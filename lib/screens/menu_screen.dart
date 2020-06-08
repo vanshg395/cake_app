@@ -105,28 +105,44 @@ class _MenuScreenState extends State<MenuScreen> {
                             SizedBox(
                                 height:
                                     MediaQuery.of(context).size.height * 0.04),
-                            Wrap(
-                              alignment: WrapAlignment.center,
-                              spacing: 30,
-                              runSpacing: 30,
-                              children: _departments
-                                  .map(
-                                    (dept) => MenuCard(
-                                      image: dept['department_image'],
-                                      title: dept['department_name'],
-                                      id: dept['id'],
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (ctx) =>
-                                                CatalogueScreen(dept['id']),
+                            _departments.length == 0
+                                ? Container(
+                                    height: 500,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      'No Cake Types Found',
+                                      style: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline4
+                                          .copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700,
                                           ),
-                                        );
-                                      },
                                     ),
                                   )
-                                  .toList(),
-                            ),
+                                : Wrap(
+                                    alignment: WrapAlignment.center,
+                                    spacing: 30,
+                                    runSpacing: 30,
+                                    children: _departments
+                                        .map(
+                                          (dept) => MenuCard(
+                                            image: dept['department_image'],
+                                            title: dept['department_name'],
+                                            id: dept['id'],
+                                            onTap: () {
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (ctx) =>
+                                                      CatalogueScreen(
+                                                          dept['id']),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
                             SizedBox(
                               height: 20,
                             ),
