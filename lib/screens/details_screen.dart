@@ -38,6 +38,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   void initState() {
     super.initState();
     _data = widget.data;
+    _data['total_amount'] = double.parse(widget.price.toStringAsFixed(2));
   }
 
   Future<void> _submit() async {
@@ -102,6 +103,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       if (response.statusCode == 201) {
         final resBody = json.decode(response.body);
         final orderId = resBody['payload']['id'];
+        Navigator.of(context).popUntil((route) => route.isFirst);
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (ctx) => OrderCopyScreen(
@@ -136,7 +138,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
         body: Stack(
           children: <Widget>[
             SvgPicture.asset(
-              'assets/img/background.svg',
+              'assets/img/bg.svg',
               fit: BoxFit.cover,
             ),
             SafeArea(

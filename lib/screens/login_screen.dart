@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
         body: Stack(
           children: <Widget>[
             SvgPicture.asset(
-              'assets/img/background.svg',
+              'assets/img/bg.svg',
               fit: BoxFit.cover,
             ),
             SafeArea(

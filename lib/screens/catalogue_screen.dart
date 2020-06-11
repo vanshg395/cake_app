@@ -52,7 +52,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
             : Stack(
                 children: <Widget>[
                   SvgPicture.asset(
-                    'assets/img/background.svg',
+                    'assets/img/bg.svg',
                     fit: BoxFit.cover,
                   ),
                   SafeArea(
