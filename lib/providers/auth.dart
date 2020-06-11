@@ -77,4 +77,13 @@ class Auth with ChangeNotifier {
     notifyListeners();
     return true;
   }
+
+  Future<void> logout() async {
+    print('hey');
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    _token = null;
+    _username = null;
+    notifyListeners();
+  }
 }

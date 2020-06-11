@@ -50,11 +50,6 @@ class _MenuScreenState extends State<MenuScreen> {
                     'assets/img/bg.svg',
                     fit: BoxFit.cover,
                   ),
-                  Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    color: Color(0xFF000000).withOpacity(0.2),
-                  ),
                   SafeArea(
                     child: Container(
                       width: double.infinity,
@@ -150,7 +145,23 @@ class _MenuScreenState extends State<MenuScreen> {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  SafeArea(
+                    child: Container(
+                      margin: EdgeInsets.only(right: 20),
+                      width: double.infinity,
+                      alignment: Alignment.centerRight,
+                      height: 80,
+                      child: RaisedButton.icon(
+                        onPressed: () {
+                          print('check');
+                          Provider.of<Auth>(context, listen: false).logout();
+                        },
+                        icon: Icon(Icons.exit_to_app),
+                        label: Text('Logout'),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

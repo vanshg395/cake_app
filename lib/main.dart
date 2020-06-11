@@ -5,10 +5,6 @@ import 'package:provider/provider.dart';
 
 import './screens/login_screen.dart';
 import './screens/menu_screen.dart';
-import './screens/catalogue_screen.dart';
-import './screens/specs_screen.dart';
-import './screens/details_screen.dart';
-import './screens/order_copy_screen.dart';
 import './providers/auth.dart';
 import './providers/data.dart';
 

@@ -1,11 +1,18 @@
+import 'dart:io';
+import 'dart:convert';
+
+import 'package:cake_app/screens/success_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
+import '../utils/constants.dart';
+import '../providers/auth.dart';
 import '../widgets/common_button.dart';
 
-class OrderCopyScreen extends StatelessWidget {
+class OrderCopyScreen extends StatefulWidget {
   final String name;
   final String phone;
   final String cakeType;
@@ -13,7 +20,7 @@ class OrderCopyScreen extends StatelessWidget {
   final int quantity;
   final double price;
   final bool isPhotoCake;
-  final int orderId;
+  final Map<String, dynamic> data;
 
   OrderCopyScreen({
     this.name,
@@ -23,8 +30,91 @@ class OrderCopyScreen extends StatelessWidget {
     this.quantity,
     this.price,
     this.isPhotoCake,
-    this.orderId,
+    this.data,
   });
+
+  @override
+  _OrderCopyScreenState createState() => _OrderCopyScreenState();
+}
+
+class _OrderCopyScreenState extends State<OrderCopyScreen> {
+  Future<void> _submit() async {
+    bool _isConfirm = false;
+    await showDialog(
+      barrierDismissible: false,
+      context: context,
+      child: AlertDialog(
+        title: Text('Confirm'),
+        content: Text('Are you sure, you want to place the order?'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Yes'),
+            onPressed: () {
+              _isConfirm = true;
+              Navigator.of(context).pop();
+            },
+          ),
+          FlatButton(
+            child: Text('No'),
+            onPressed: () {
+              _isConfirm = false;
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+    if (!_isConfirm) return;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      child: Dialog(
+        child: Container(
+          width: 300,
+          child: ListTile(
+            leading: CircularProgressIndicator(),
+            title: Text('Loading'),
+          ),
+        ),
+      ),
+    );
+
+    try {
+      final url = baseUrl + 'api/core/order/';
+      final response = await http.post(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader:
+              Provider.of<Auth>(context, listen: false).token,
+          HttpHeaders.contentTypeHeader: 'application/json',
+        },
+        body: json.encode(widget.data),
+      );
+      print(response.statusCode);
+      print(response.body);
+      Navigator.of(context).pop();
+      if (response.statusCode == 201) {
+        final resBody = json.decode(response.body);
+        final orderId = resBody['payload']['id'];
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (ctx) => SuccessScreen(orderId, widget.isPhotoCake),
+          ),
+        );
+      } else {
+        await showDialog(
+          context: context,
+          child: AlertDialog(
+            title: Text('Error'),
+            content: Text('Order could not be placed. Please try again.'),
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +226,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        name,
+                                        widget.name,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -160,7 +250,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        name,
+                                        widget.name,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -197,7 +287,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        phone,
+                                        widget.phone,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -221,7 +311,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        phone,
+                                        widget.phone,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -258,7 +348,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        cakeType,
+                                        widget.cakeType,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -282,7 +372,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        cakeType,
+                                        widget.cakeType,
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -319,7 +409,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        weight.toString(),
+                                        widget.weight.toString(),
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -343,7 +433,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        weight.toString(),
+                                        widget.weight.toString(),
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -380,7 +470,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        quantity.toString(),
+                                        widget.quantity.toString(),
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -404,7 +494,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        quantity.toString(),
+                                        widget.quantity.toString(),
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -441,7 +531,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        price.toString(),
+                                        widget.price.toString(),
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -465,7 +555,7 @@ class OrderCopyScreen extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        '₹ ' + price.toStringAsFixed(2),
+                                        '₹ ' + widget.price.toStringAsFixed(2),
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1
@@ -482,33 +572,27 @@ class OrderCopyScreen extends StatelessWidget {
                               thickness: 1,
                               color: Theme.of(context).primaryColor,
                             ),
-                            if (isPhotoCake) ...[
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.1,
-                              ),
-                              Center(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: QrImage(
-                                    backgroundColor: Colors.white,
-                                    padding: EdgeInsets.all(20),
-                                    data: 'https://www.google.com/?id=$orderId',
-                                    version: QrVersions.auto,
-                                    size: 250.0,
-                                  ),
-                                ),
-                              ),
-                            ],
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.1,
                             ),
                             Center(
-                              child: Text(
-                                'Your order has been placed.',
-                                style: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline3,
+                              child: CommonButton(
+                                title: 'Confirm',
+                                borderRadius: 30,
+                                fontSize:
+                                    MediaQuery.of(context).size.width < 600
+                                        ? 16
+                                        : 26,
+                                width: MediaQuery.of(context).size.width < 600
+                                    ? 200
+                                    : 250,
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Theme.of(context).primaryColor,
+                                    Theme.of(context).primaryColor,
+                                  ],
+                                ),
+                                onPressed: _submit,
                               ),
                             ),
                           ],

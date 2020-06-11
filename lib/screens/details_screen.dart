@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,14 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 
 import './order_copy_screen.dart';
 import '../widgets/common_button.dart';
 import '../widgets/dropdown.dart';
-import '../utils/constants.dart';
-import '../providers/auth.dart';
 
 class UserDetailsScreen extends StatefulWidget {
   @override
@@ -29,10 +24,12 @@ class UserDetailsScreen extends StatefulWidget {
 class _UserDetailsScreenState extends State<UserDetailsScreen> {
   GlobalKey<FormState> _formKey = GlobalKey();
   String _deliveryDate = '';
+  String _deliveryTime = '';
   Map<String, dynamic> _data = {
     'date_of_delivery': '',
+    'time_of_delivery': '',
   };
-  String _occasion;
+  String _occasionChoice;
 
   @override
   void initState() {
@@ -47,87 +44,89 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       return;
     }
     print(_data);
-    bool _isConfirm = false;
-    await showDialog(
-      barrierDismissible: false,
-      context: context,
-      child: AlertDialog(
-        title: Text('Confirm'),
-        content: Text('Are you sure, you want to place the order?'),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Yes'),
-            onPressed: () {
-              _isConfirm = true;
-              Navigator.of(context).pop();
-            },
-          ),
-          FlatButton(
-            child: Text('No'),
-            onPressed: () {
-              _isConfirm = false;
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      ),
-    );
-    if (!_isConfirm) return;
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      child: Dialog(
-        child: Container(
-          width: 300,
-          child: ListTile(
-            leading: CircularProgressIndicator(),
-            title: Text('Loading'),
-          ),
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (ctx) => OrderCopyScreen(
+          name: _data['name'],
+          phone: _data['phone_number'],
+          cakeType: widget.cakeName,
+          weight: _data['weight'],
+          quantity: _data['quantity'],
+          price: widget.price,
+          isPhotoCake: widget.isPhotoCake,
+          data: _data,
+          // orderId: orderId,
         ),
       ),
     );
-    try {
-      final url = baseUrl + 'api/core/order/';
-      final response = await http.post(
-        url,
-        headers: {
-          HttpHeaders.authorizationHeader:
-              Provider.of<Auth>(context, listen: false).token,
-          HttpHeaders.contentTypeHeader: 'application/json',
-        },
-        body: json.encode(_data),
-      );
-      print(response.statusCode);
-      print(response.body);
-      Navigator.of(context).pop();
-      if (response.statusCode == 201) {
-        final resBody = json.decode(response.body);
-        final orderId = resBody['payload']['id'];
-        Navigator.of(context).popUntil((route) => route.isFirst);
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (ctx) => OrderCopyScreen(
-              name: _data['name'],
-              phone: _data['phone_number'],
-              cakeType: widget.cakeName,
-              weight: _data['weight'],
-              quantity: _data['quantity'],
-              price: widget.price,
-              isPhotoCake: widget.isPhotoCake,
-              orderId: orderId,
-            ),
-          ),
-        );
-      } else {
-        await showDialog(
-          context: context,
-          child: AlertDialog(
-            title: Text('Error'),
-            content: Text('Order could not be placed.'),
-          ),
-        );
-      }
-    } catch (e) {}
+    // bool _isConfirm = false;
+    // await showDialog(
+    //   barrierDismissible: false,
+    //   context: context,
+    //   child: AlertDialog(
+    //     title: Text('Confirm'),
+    //     content: Text('Are you sure, you want to place the order?'),
+    //     actions: <Widget>[
+    //       FlatButton(
+    //         child: Text('Yes'),
+    //         onPressed: () {
+    //           _isConfirm = true;
+    //           Navigator.of(context).pop();
+    //         },
+    //       ),
+    //       FlatButton(
+    //         child: Text('No'),
+    //         onPressed: () {
+    //           _isConfirm = false;
+    //           Navigator.of(context).pop();
+    //         },
+    //       ),
+    //     ],
+    //   ),
+    // );
+    // if (!_isConfirm) return;
+    // showDialog(
+    //   context: context,
+    //   barrierDismissible: false,
+    //   child: Dialog(
+    //     child: Container(
+    //       width: 300,
+    //       child: ListTile(
+    //         leading: CircularProgressIndicator(),
+    //         title: Text('Loading'),
+    //       ),
+    //     ),
+    //   ),
+    // );
+    // try {
+    //   final url = baseUrl + 'api/core/order/';
+    //   final response = await http.post(
+    //     url,
+    //     headers: {
+    //       HttpHeaders.authorizationHeader:
+    //           Provider.of<Auth>(context, listen: false).token,
+    //       HttpHeaders.contentTypeHeader: 'application/json',
+    //     },
+    //     body: json.encode(_data),
+    //   );
+    //   print(response.statusCode);
+    //   print(response.body);
+    //   Navigator.of(context).pop();
+    //   if (response.statusCode == 201) {
+    //     final resBody = json.decode(response.body);
+    //     final orderId = resBody['payload']['id'];
+    //     Navigator.of(context).popUntil((route) => route.isFirst);
+
+    //   } else {
+    //     await showDialog(
+    //       context: context,
+    //       child: AlertDialog(
+    //         title: Text('Error'),
+    //         content: Text('Order could not be placed.'),
+    //       ),
+    //     );
+    //   }
+    // } catch (e) {}
   }
 
   @override
@@ -717,6 +716,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           if (value == '') {
                                             return 'This field is required.';
                                           }
+                                          if (!RegExp(
+                                                  r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+                                              .hasMatch(value)) {
+                                            return 'Please enter a valid email.';
+                                          }
                                         },
                                         onSaved: (value) {
                                           _data['email'] = value;
@@ -794,6 +798,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           if (value == '') {
                                             return 'This field is required.';
                                           }
+                                          if (!RegExp(
+                                                  r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+                                              .hasMatch(value)) {
+                                            return 'Please enter a valid email.';
+                                          }
                                         },
                                         onSaved: (value) {
                                           _data['email'] = value;
@@ -842,15 +851,15 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                             value: 'Birthday',
                                           ),
                                           DropdownMenuItem(
-                                            child: Text('Christmas'),
-                                            value: 'Christmas',
+                                            child: Text('Anniversary'),
+                                            value: 'Anniversary',
                                           ),
                                           DropdownMenuItem(
-                                            child: Text('New Year'),
-                                            value: 'New Year',
+                                            child: Text('Other'),
+                                            value: 'Other',
                                           ),
                                         ],
-                                        value: _occasion,
+                                        value: _occasionChoice,
                                         iconSize:
                                             MediaQuery.of(context).size.width <
                                                     600
@@ -866,7 +875,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                             Theme.of(context).cardColor,
                                         onChanged: (val) {
                                           setState(() {
-                                            _occasion = val;
+                                            _occasionChoice = val;
                                           });
                                         },
                                         decoration: InputDecoration(
@@ -935,6 +944,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           }
                                         },
                                         onSaved: (value) {
+                                          if (value == 'Other') return;
                                           _data['occasion'] = value;
                                         },
                                       ),
@@ -961,15 +971,15 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                             value: 'Birthday',
                                           ),
                                           DropdownMenuItem(
-                                            child: Text('Christmas'),
-                                            value: 'Christmas',
+                                            child: Text('Anniversary'),
+                                            value: 'Anniversary',
                                           ),
                                           DropdownMenuItem(
-                                            child: Text('New Year'),
-                                            value: 'New Year',
+                                            child: Text('Other'),
+                                            value: 'Other',
                                           ),
                                         ],
-                                        value: _occasion,
+                                        value: _occasionChoice,
                                         iconSize:
                                             MediaQuery.of(context).size.width <
                                                     600
@@ -985,7 +995,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                             Theme.of(context).cardColor,
                                         onChanged: (val) {
                                           setState(() {
-                                            _occasion = val;
+                                            _occasionChoice = val;
                                           });
                                         },
                                         decoration: InputDecoration(
@@ -1054,6 +1064,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           }
                                         },
                                         onSaved: (value) {
+                                          if (value == 'Other') return;
                                           _data['occasion'] = value;
                                         },
                                       ),
@@ -1061,6 +1072,78 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                   ],
                                 ),
                         ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        if (_occasionChoice == 'Other')
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal:
+                                    MediaQuery.of(context).size.width < 600
+                                        ? 16
+                                        : 30),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                Container(
+                                  width: MediaQuery.of(context).size.width < 600
+                                      ? double.infinity
+                                      : 300,
+                                  child: TextFormField(
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(2),
+                                        borderSide: BorderSide(
+                                          width: 0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(2),
+                                        borderSide: BorderSide(
+                                          width: 0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(2),
+                                        borderSide: BorderSide(
+                                          width: 0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(2),
+                                        borderSide: BorderSide(
+                                          width: 0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(2),
+                                        borderSide: BorderSide(
+                                          width: 0,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      errorStyle:
+                                          TextStyle(color: Colors.red[200]),
+                                    ),
+                                    validator: (value) {
+                                      if (value == '') {
+                                        return 'This field is required.';
+                                      }
+                                    },
+                                    onSaved: (value) {
+                                      _data['occasion'] = value;
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.03,
                         ),
@@ -1081,7 +1164,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(
-                            vertical: 50,
+                            vertical: 30,
                             horizontal: 40,
                           ),
                           width: MediaQuery.of(context).size.width * 0.8,
@@ -1101,10 +1184,10 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                 style: MediaQuery.of(context).size.width < 600
                                     ? Theme.of(context)
                                         .primaryTextTheme
-                                        .headline4
+                                        .headline5
                                     : Theme.of(context)
                                         .primaryTextTheme
-                                        .headline3,
+                                        .headline4,
                               ),
                               SizedBox(
                                 height:
@@ -1255,6 +1338,192 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                   validator: (value) {
                                     if (_data['date_of_delivery'] == null) {
                                       return 'This field is required';
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 30,
+                            horizontal: 40,
+                          ),
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).accentColor,
+                            border: Border.all(
+                              color: Theme.of(context).primaryColor,
+                              width: 5,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                'Time of Delivery',
+                                textAlign: TextAlign.center,
+                                style: MediaQuery.of(context).size.width < 600
+                                    ? Theme.of(context)
+                                        .primaryTextTheme
+                                        .headline5
+                                    : Theme.of(context)
+                                        .primaryTextTheme
+                                        .headline4,
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.04,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width < 600
+                                    ? double.infinity
+                                    : 300,
+                                child: TextFormField(
+                                  readOnly: true,
+                                  decoration: InputDecoration(
+                                    hintStyle: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                    hintText: _deliveryTime,
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(2),
+                                      borderSide: BorderSide(
+                                        width: 0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(2),
+                                      borderSide: BorderSide(
+                                        width: 0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(2),
+                                      borderSide: BorderSide(
+                                        width: 0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(2),
+                                      borderSide: BorderSide(
+                                        width: 0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(2),
+                                      borderSide: BorderSide(
+                                        width: 0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    suffixIcon: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        Icons.watch_later,
+                                        size: 40,
+                                      ),
+                                    ),
+                                    errorStyle:
+                                        TextStyle(color: Colors.red[200]),
+                                    // contentPadding: EdgeInsets.only(
+                                    //   right: 20,
+                                    // ),
+                                  ),
+                                  onTap: () async {
+                                    if (Platform.isAndroid) {
+                                      final TimeOfDay time =
+                                          await showTimePicker(
+                                        context: context,
+                                        initialTime:
+                                            TimeOfDay(hour: 0, minute: 0),
+                                      );
+                                      if (time == null) {
+                                        return;
+                                      }
+                                      setState(() {
+                                        _deliveryTime = time.format(context);
+                                        print(time);
+                                        print(time.hour.toString() +
+                                            ':' +
+                                            time.minute.toString());
+                                        _data['time_of_delivery'] =
+                                            time.hour.toString() +
+                                                ':' +
+                                                time.minute.toString();
+                                      });
+                                    } else {
+                                      final TimeOfDay time =
+                                          await showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) {
+                                          TimeOfDay _time;
+                                          return Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.3,
+                                            child: Column(
+                                              children: <Widget>[
+                                                Container(
+                                                  color: Theme.of(context)
+                                                      .cardColor,
+                                                  width: double.infinity,
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: CupertinoButton(
+                                                    child: Text('Done'),
+                                                    onPressed: () =>
+                                                        Navigator.of(context)
+                                                            .pop(_time),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: CupertinoDatePicker(
+                                                    mode:
+                                                        CupertinoDatePickerMode
+                                                            .time,
+                                                    initialDateTime: DateTime(
+                                                      DateTime.now().year,
+                                                    ),
+                                                    onDateTimeChanged: (time) {
+                                                      _time = TimeOfDay
+                                                          .fromDateTime(time);
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                      if (time == null) {
+                                        return;
+                                      }
+                                      setState(() {
+                                        _deliveryTime = time.format(context);
+                                        _data['time_of_delivery'] =
+                                            time.hour.toString() +
+                                                ':' +
+                                                time.minute.toString();
+                                      });
+                                    }
+                                  },
+                                  validator: (value) {
+                                    print(_data['time_of_delivery']);
+                                    print(_data['time_of_delivery'] == '');
+                                    if (_data['time_of_delivery'] == null) {
+                                      return 'This field is required.';
                                     }
                                   },
                                 ),

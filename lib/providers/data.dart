@@ -77,6 +77,4 @@ class Data with ChangeNotifier {
       throw HttpException('Internal Server Error');
     }
   }
-
-  // Future<void> get
 }
