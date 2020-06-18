@@ -97,6 +97,7 @@ class _OrderCopyScreenState extends State<OrderCopyScreen> {
         final resBody = json.decode(response.body);
         final orderId = resBody['payload']['id'];
         Navigator.of(context).popUntil((route) => route.isFirst);
+
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (ctx) => SuccessScreen(orderId, widget.isPhotoCake),

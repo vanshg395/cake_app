@@ -28,6 +28,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
   Map<String, dynamic> _data = {
     'date_of_delivery': '',
     'time_of_delivery': '',
+    'email': '',
   };
   String _occasionChoice;
 
@@ -55,78 +56,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
           price: widget.price,
           isPhotoCake: widget.isPhotoCake,
           data: _data,
-          // orderId: orderId,
         ),
       ),
     );
-    // bool _isConfirm = false;
-    // await showDialog(
-    //   barrierDismissible: false,
-    //   context: context,
-    //   child: AlertDialog(
-    //     title: Text('Confirm'),
-    //     content: Text('Are you sure, you want to place the order?'),
-    //     actions: <Widget>[
-    //       FlatButton(
-    //         child: Text('Yes'),
-    //         onPressed: () {
-    //           _isConfirm = true;
-    //           Navigator.of(context).pop();
-    //         },
-    //       ),
-    //       FlatButton(
-    //         child: Text('No'),
-    //         onPressed: () {
-    //           _isConfirm = false;
-    //           Navigator.of(context).pop();
-    //         },
-    //       ),
-    //     ],
-    //   ),
-    // );
-    // if (!_isConfirm) return;
-    // showDialog(
-    //   context: context,
-    //   barrierDismissible: false,
-    //   child: Dialog(
-    //     child: Container(
-    //       width: 300,
-    //       child: ListTile(
-    //         leading: CircularProgressIndicator(),
-    //         title: Text('Loading'),
-    //       ),
-    //     ),
-    //   ),
-    // );
-    // try {
-    //   final url = baseUrl + 'api/core/order/';
-    //   final response = await http.post(
-    //     url,
-    //     headers: {
-    //       HttpHeaders.authorizationHeader:
-    //           Provider.of<Auth>(context, listen: false).token,
-    //       HttpHeaders.contentTypeHeader: 'application/json',
-    //     },
-    //     body: json.encode(_data),
-    //   );
-    //   print(response.statusCode);
-    //   print(response.body);
-    //   Navigator.of(context).pop();
-    //   if (response.statusCode == 201) {
-    //     final resBody = json.decode(response.body);
-    //     final orderId = resBody['payload']['id'];
-    //     Navigator.of(context).popUntil((route) => route.isFirst);
-
-    //   } else {
-    //     await showDialog(
-    //       context: context,
-    //       child: AlertDialog(
-    //         title: Text('Error'),
-    //         content: Text('Order could not be placed.'),
-    //       ),
-    //     );
-    //   }
-    // } catch (e) {}
   }
 
   @override
@@ -528,6 +460,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           if (value == '') {
                                             return 'This field is required.';
                                           }
+                                          if (value.length != 10) {
+                                            return 'This phone number is invalid.';
+                                          }
                                         },
                                         onSaved: (value) {
                                           _data['phone_number'] = value;
@@ -617,6 +552,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                         validator: (value) {
                                           if (value == '') {
                                             return 'This field is required.';
+                                          }
+                                          if (value.length != 10) {
+                                            return 'This phone number is invalid.';
                                           }
                                         },
                                         onSaved: (value) {
@@ -713,17 +651,19 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                               TextStyle(color: Colors.red[200]),
                                         ),
                                         validator: (value) {
-                                          if (value == '') {
-                                            return 'This field is required.';
-                                          }
-                                          if (!RegExp(
-                                                  r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
-                                              .hasMatch(value)) {
+                                          if (value != '' &&
+                                              !RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+                                                  .hasMatch(value)) {
                                             return 'Please enter a valid email.';
                                           }
                                         },
                                         onSaved: (value) {
-                                          _data['email'] = value;
+                                          if (value == '') {
+                                            _data['email'] =
+                                                'noemail@noemail.com';
+                                          } else {
+                                            _data['email'] = value;
+                                          }
                                         },
                                       ),
                                     ),
@@ -795,17 +735,19 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                               TextStyle(color: Colors.red[200]),
                                         ),
                                         validator: (value) {
-                                          if (value == '') {
-                                            return 'This field is required.';
-                                          }
-                                          if (!RegExp(
-                                                  r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
-                                              .hasMatch(value)) {
+                                          if (value != '' &&
+                                              !RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
+                                                  .hasMatch(value)) {
                                             return 'Please enter a valid email.';
                                           }
                                         },
                                         onSaved: (value) {
-                                          _data['email'] = value;
+                                          if (value == '') {
+                                            _data['email'] =
+                                                'noemail@noemail.com';
+                                          } else {
+                                            _data['email'] = value;
+                                          }
                                         },
                                       ),
                                     ),
@@ -842,7 +784,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                       ],
                                     ),
                                     Container(
-                                      width: 300,
+                                      // width: 500,
                                       child: MultilineDropdownButtonFormField(
                                         // isExpanded: true,
                                         items: [
@@ -929,8 +871,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           ),
                                           contentPadding: EdgeInsets.only(
                                             left: 20,
-                                            top: 5,
-                                            bottom: 5,
+                                            top: 10,
+                                            bottom: 10,
                                             right: 10,
                                           ),
                                           errorStyle:
@@ -1082,66 +1024,61 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                     MediaQuery.of(context).size.width < 600
                                         ? 16
                                         : 30),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Container(
-                                  width: MediaQuery.of(context).size.width < 600
-                                      ? double.infinity
-                                      : 300,
-                                  child: TextFormField(
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      errorStyle:
-                                          TextStyle(color: Colors.red[200]),
+                            child: Container(
+                              width: 300,
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  hintText: 'Other Occassion',
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(2),
+                                    borderSide: BorderSide(
+                                      width: 0,
+                                      color: Colors.white,
                                     ),
-                                    validator: (value) {
-                                      if (value == '') {
-                                        return 'This field is required.';
-                                      }
-                                    },
-                                    onSaved: (value) {
-                                      _data['occasion'] = value;
-                                    },
                                   ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(2),
+                                    borderSide: BorderSide(
+                                      width: 0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(2),
+                                    borderSide: BorderSide(
+                                      width: 0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(2),
+                                    borderSide: BorderSide(
+                                      width: 0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(2),
+                                    borderSide: BorderSide(
+                                      width: 0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  errorStyle: TextStyle(color: Colors.red[200]),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 20),
                                 ),
-                              ],
+                                validator: (value) {
+                                  if (value == '') {
+                                    return 'This field is required.';
+                                  }
+                                },
+                                onSaved: (value) {
+                                  _data['occasion'] = value;
+                                },
+                              ),
                             ),
                           ),
                         SizedBox(
@@ -1453,14 +1390,16 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                       }
                                       setState(() {
                                         _deliveryTime = time.format(context);
-                                        print(time);
-                                        print(time.hour.toString() +
-                                            ':' +
-                                            time.minute.toString());
-                                        _data['time_of_delivery'] =
-                                            time.hour.toString() +
-                                                ':' +
-                                                time.minute.toString();
+                                        _data['date_of_delivery'] =
+                                            DateTime.parse(
+                                                    _data['date_of_delivery'])
+                                                .add(
+                                                  Duration(
+                                                    hours: time.hour,
+                                                    minutes: time.minute,
+                                                  ),
+                                                )
+                                                .toIso8601String();
                                       });
                                     } else {
                                       final TimeOfDay time =
@@ -1512,17 +1451,21 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                       }
                                       setState(() {
                                         _deliveryTime = time.format(context);
-                                        _data['time_of_delivery'] =
-                                            time.hour.toString() +
-                                                ':' +
-                                                time.minute.toString();
+                                        _data['date_of_delivery'] =
+                                            DateTime.parse(
+                                                    _data['date_of_delivery'])
+                                                .add(
+                                                  Duration(
+                                                    hours: time.hour,
+                                                    minutes: time.minute,
+                                                  ),
+                                                )
+                                                .toIso8601String();
                                       });
                                     }
                                   },
                                   validator: (value) {
-                                    print(_data['time_of_delivery']);
-                                    print(_data['time_of_delivery'] == '');
-                                    if (_data['time_of_delivery'] == null) {
+                                    if (_deliveryTime == '') {
                                       return 'This field is required.';
                                     }
                                   },

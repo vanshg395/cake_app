@@ -30,6 +30,7 @@ class _SpecsScreenState extends State<SpecsScreen> {
   Map<String, dynamic> _data = {
     'eggless': false,
     'flavor': '',
+    'special_instructions': '',
   };
 
   @override
@@ -915,7 +916,7 @@ class _SpecsScreenState extends State<SpecsScreen> {
                                     height: 10,
                                   ),
                                   TextFormField(
-                                    maxLength: 20,
+                                    maxLength: 50,
                                     decoration: InputDecoration(
                                       counterStyle:
                                           TextStyle(color: Colors.white),
@@ -1046,7 +1047,11 @@ class _SpecsScreenState extends State<SpecsScreen> {
                                       ),
                                     ),
                                     onSaved: (value) {
-                                      _data['special_instructions'] = value;
+                                      if (value == '') {
+                                        _data['special_instructions'] = 'N/A';
+                                      } else {
+                                        _data['special_instructions'] = value;
+                                      }
                                     },
                                   ),
                                 ],

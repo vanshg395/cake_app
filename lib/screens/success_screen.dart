@@ -42,6 +42,7 @@ class SuccessScreen extends StatelessWidget {
                       ),
                       Text(
                         'Thanks for Shopping at JustBake',
+                        textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .primaryTextTheme
                             .headline4
@@ -57,7 +58,8 @@ class SuccessScreen extends StatelessWidget {
                             child: QrImage(
                               backgroundColor: Colors.white,
                               padding: EdgeInsets.all(20),
-                              data: 'https://www.google.com/?id=$orderId',
+                              data:
+                                  'https://photo.justbakeadmin.live/?id=$orderId',
                               version: QrVersions.auto,
                               size: 250.0,
                             ),
