@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import './order_copy_screen.dart';
 import '../widgets/common_button.dart';
@@ -17,12 +18,15 @@ class UserDetailsScreen extends StatefulWidget {
   final String cakeName;
   final bool isPhotoCake;
   final double price;
+  final Map<String, dynamic> forwardData;
 
-  UserDetailsScreen(this.data, this.isPhotoCake, this.cakeName, this.price);
+  UserDetailsScreen(
+      this.data, this.isPhotoCake, this.cakeName, this.price, this.forwardData);
 }
 
 class _UserDetailsScreenState extends State<UserDetailsScreen> {
   GlobalKey<FormState> _formKey = GlobalKey();
+  bool _isFirst = true;
   String _deliveryDate = '';
   String _deliveryTime = '';
   Map<String, dynamic> _data = {
@@ -31,12 +35,44 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
     'email': '',
   };
   String _occasionChoice;
+  List<TextEditingController> _controllers = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+  ];
 
   @override
   void initState() {
     super.initState();
     _data = widget.data;
     _data['total_amount'] = double.parse(widget.price.toStringAsFixed(2));
+    print(widget.forwardData);
+    if (widget.forwardData['name'] != null)
+      _controllers[0].text = widget.forwardData['name'];
+    if (widget.forwardData['phone_number'] != null)
+      _controllers[1].text = widget.forwardData['phone_number'];
+    if (widget.forwardData['email'] != null)
+      widget.forwardData['email'] == 'noemail@noemail.com'
+          ? _controllers[2].text = ''
+          : _controllers[3].text = widget.forwardData['email'];
+    if (widget.forwardData['occasion'] != null)
+      _occasionChoice = widget.forwardData['occasion'];
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isFirst) {
+      if (widget.forwardData['date_of_delivery'] != null) {
+        _deliveryDate = DateFormat.yMMMMd()
+            .format(DateTime.parse(widget.forwardData['date_of_delivery']));
+        _deliveryTime = TimeOfDay.fromDateTime(
+                DateTime.parse(widget.forwardData['date_of_delivery']))
+            .format(context);
+      }
+      _isFirst = false;
+    }
   }
 
   Future<void> _submit() async {
@@ -145,7 +181,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                   ),
                                 ),
                                 onTap: () {
-                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop(_data);
                                 },
                               )
                             ],
@@ -206,6 +242,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           ? double.infinity
                                           : 300,
                                       child: TextFormField(
+                                        controller: _controllers[0],
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.white,
@@ -294,6 +331,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           ? double.infinity
                                           : 300,
                                       child: TextFormField(
+                                        controller: _controllers[0],
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.white,
@@ -408,6 +446,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           ? double.infinity
                                           : 300,
                                       child: TextFormField(
+                                        controller: _controllers[1],
                                         keyboardType: TextInputType.phone,
                                         decoration: InputDecoration(
                                           filled: true,
@@ -463,6 +502,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           if (value.length != 10) {
                                             return 'This phone number is invalid.';
                                           }
+                                          if (double.tryParse(value) == null) {
+                                            return 'This phone number is invalid.';
+                                          }
                                         },
                                         onSaved: (value) {
                                           _data['phone_number'] = value;
@@ -501,6 +543,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           ? double.infinity
                                           : 300,
                                       child: TextFormField(
+                                        controller: _controllers[1],
                                         keyboardType: TextInputType.phone,
                                         decoration: InputDecoration(
                                           filled: true,
@@ -554,6 +597,9 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                             return 'This field is required.';
                                           }
                                           if (value.length != 10) {
+                                            return 'This phone number is invalid.';
+                                          }
+                                          if (double.tryParse(value) == null) {
                                             return 'This phone number is invalid.';
                                           }
                                         },
@@ -601,6 +647,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           ? double.infinity
                                           : 300,
                                       child: TextFormField(
+                                        controller: _controllers[2],
                                         keyboardType:
                                             TextInputType.emailAddress,
                                         decoration: InputDecoration(
@@ -685,6 +732,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           ? double.infinity
                                           : 300,
                                       child: TextFormField(
+                                        controller: _controllers[2],
                                         keyboardType:
                                             TextInputType.emailAddress,
                                         decoration: InputDecoration(

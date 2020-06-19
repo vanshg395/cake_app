@@ -34,6 +34,7 @@ class _SpecsScreenState extends State<SpecsScreen> {
     'special_instructions': '',
     'message_on_cake': '',
   };
+  Map<String, dynamic> _forwardData = {};
 
   @override
   void initState() {
@@ -453,16 +454,21 @@ class _SpecsScreenState extends State<SpecsScreen> {
     if (!_formKey.currentState.validate()) {
       return;
     }
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) => UserDetailsScreen(
-          _data,
-          widget.cakeDetails['custom_photo_upload'],
-          widget.cakeDetails['cake_name'],
-          price,
-        ),
-      ),
-    );
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            builder: (ctx) => UserDetailsScreen(
+              _data,
+              widget.cakeDetails['custom_photo_upload'],
+              widget.cakeDetails['cake_name'],
+              price,
+              _forwardData,
+            ),
+          ),
+        )
+        .then(
+          (value) => _forwardData = value,
+        );
   }
 
   double get price {
@@ -1287,11 +1293,6 @@ class _SpecsScreenState extends State<SpecsScreen> {
                 ),
               ),
             ),
-            // Positioned(
-            //   bottom: 20,
-            //   left: MediaQuery.of(context).size.width * 0.05,
-            //   child:
-            // ),
           ],
         ),
       ),
