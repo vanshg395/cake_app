@@ -5,8 +5,14 @@ class CatalogueCard extends StatelessWidget {
   final Function onTap;
   final String image;
   final String name;
+  final String price;
 
-  CatalogueCard({this.name, this.image, this.onTap});
+  CatalogueCard({
+    this.name,
+    this.image,
+    this.price,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -55,18 +61,41 @@ class CatalogueCard extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: Center(
-                    child: Text(
-                      name,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: true,
-                      maxLines: 3,
-                      style:
-                          Theme.of(context).primaryTextTheme.bodyText1.copyWith(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Text(
+                          name,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          maxLines: 3,
+                          style: Theme.of(context)
+                              .primaryTextTheme
+                              .bodyText1
+                              .copyWith(
                                 fontSize: 18,
                                 color: Colors.white,
                               ),
+                        ),
+                        Text(
+                          price == '0'
+                              ? 'No Price Details'
+                              : 'Half Kg Price: ₹' + price,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          softWrap: true,
+                          maxLines: 3,
+                          style: Theme.of(context)
+                              .primaryTextTheme
+                              .bodyText1
+                              .copyWith(
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                        ),
+                      ],
                     ),
                   ),
                 )

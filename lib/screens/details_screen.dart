@@ -408,7 +408,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           ? double.infinity
                                           : 300,
                                       child: TextFormField(
-                                        keyboardType: TextInputType.number,
+                                        keyboardType: TextInputType.phone,
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.white,
@@ -501,7 +501,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                           ? double.infinity
                                           : 300,
                                       child: TextFormField(
-                                        keyboardType: TextInputType.number,
+                                        keyboardType: TextInputType.phone,
                                         decoration: InputDecoration(
                                           filled: true,
                                           fillColor: Colors.white,
@@ -1210,7 +1210,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                             DateFormat.yMMMMd().format(date);
 
                                         _data['date_of_delivery'] =
-                                            date.toString();
+                                            date.toIso8601String();
+                                        _deliveryTime = '';
                                       });
                                     } else {
                                       final DateTime date =
@@ -1269,6 +1270,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
 
                                         _data['date_of_delivery'] =
                                             date.toIso8601String();
+                                        _deliveryTime = '';
                                       });
                                     }
                                   },

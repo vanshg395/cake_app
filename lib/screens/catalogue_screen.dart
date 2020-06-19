@@ -36,6 +36,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
     setState(() {
       _cakes = Provider.of<Data>(context, listen: false).cakes;
       _isLoading = false;
+      print(_cakes);
     });
   }
 
@@ -145,22 +146,25 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                                 childAspectRatio: 4 / 5,
                                 crossAxisSpacing: 20,
                                 mainAxisSpacing: 20,
-                                children: _cakes
-                                    .map(
-                                      (cake) => CatalogueCard(
-                                        name: cake['cake_name'],
-                                        image: cake['cake_image'],
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (ctx) =>
-                                                  SpecsScreen(cake),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    )
-                                    .toList(),
+                                children: _cakes.map(
+                                  (cake) {
+                                    print(cake['half_kg_price']);
+                                    return CatalogueCard(
+                                      name: cake['cake_name'],
+                                      image: cake['cake_image'],
+                                      price: cake['half_kg_available']
+                                          ? cake['half_kg_price'].toString()
+                                          : 'N/A',
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (ctx) => SpecsScreen(cake),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ).toList(),
                               ),
                             ),
                           ),

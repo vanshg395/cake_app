@@ -22,15 +22,17 @@ class _SpecsScreenState extends State<SpecsScreen> {
   GlobalKey<FormState> _formKey = GlobalKey();
   bool _isEggless = false;
   String _flavorName;
-  double _weight;
+  double _weight = 1;
   double _cost1kg = 0;
   double _costhalfkg = 0;
   int _chosenFlavorIndex;
   int _quantity = 1;
+  String _shape = 'Circle';
   Map<String, dynamic> _data = {
     'eggless': false,
     'flavor': '',
     'special_instructions': '',
+    'message_on_cake': '',
   };
 
   @override
@@ -173,6 +175,8 @@ class _SpecsScreenState extends State<SpecsScreen> {
         onChanged: (val) {
           setState(() {
             _weight = val;
+            _shape = 'Circle';
+            _data['shape'] = 'Circle';
           });
         },
         decoration: InputDecoration(
@@ -211,7 +215,7 @@ class _SpecsScreenState extends State<SpecsScreen> {
               width: 0,
             ),
           ),
-          hintText: '',
+          hintText: 'Weight',
           hintStyle: TextStyle(
             fontSize: 16,
           ),
@@ -342,6 +346,103 @@ class _SpecsScreenState extends State<SpecsScreen> {
         },
         onSaved: (value) {
           _data['quantity'] = value;
+        },
+      ),
+    );
+  }
+
+  Widget buildShapePicker() {
+    return Container(
+      width: max(MediaQuery.of(context).size.width * 0.15, 150),
+      child: MultilineDropdownButtonFormField(
+        // isExpanded: true,
+        items: [
+          DropdownMenuItem(
+            child: Text('Circle'),
+            value: 'Circle',
+          ),
+          if (_weight >= 1) ...[
+            DropdownMenuItem(
+              child: Text('Square'),
+              value: 'Square',
+            ),
+            DropdownMenuItem(
+              child: Text('Heart'),
+              value: 'Heart',
+            ),
+          ],
+        ],
+        value: _shape,
+        iconSize: MediaQuery.of(context).size.width < 600 ? 40 : 50,
+        icon: Icon(
+          Icons.arrow_drop_down,
+          color: Theme.of(context).primaryColor,
+        ),
+        iconEnabledColor: Theme.of(context).cardColor,
+        iconDisabledColor: Theme.of(context).cardColor,
+        onChanged: (val) {
+          setState(() {
+            _shape = val;
+          });
+        },
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(
+              color: Colors.grey,
+              width: 0,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(
+              color: Colors.grey,
+              width: 0,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(
+              color: Colors.grey,
+              width: 0,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(
+              color: Colors.grey,
+              width: 0,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(
+              color: Colors.grey,
+              width: 0,
+            ),
+          ),
+          hintText: '',
+          hintStyle: TextStyle(
+            fontSize: 16,
+          ),
+          labelStyle: TextStyle(
+            fontSize: 16,
+          ),
+          contentPadding: EdgeInsets.only(
+            left: 20,
+            right: 10,
+          ),
+          errorStyle: TextStyle(color: Colors.red[200]),
+          fillColor: Colors.white,
+          filled: true,
+        ),
+        validator: (value) {
+          if (value == null) {
+            return 'This field is required.';
+          }
+        },
+        onSaved: (value) {
+          _data['shape'] = value;
         },
       ),
     );
@@ -655,6 +756,42 @@ class _SpecsScreenState extends State<SpecsScreen> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.03,
                         ),
+                        MediaQuery.of(context).size.width < 600
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'Shape',
+                                    style: Theme.of(context)
+                                        .primaryTextTheme
+                                        .bodyText1
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  buildShapePicker(),
+                                ],
+                              )
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'Shape',
+                                    style: Theme.of(context)
+                                        .primaryTextTheme
+                                        .bodyText1
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  buildShapePicker(),
+                                ],
+                              ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03,
+                        ),
                         widget.cakeDetails['does_this_have_flavours']
                             ? _chosenFlavorIndex == null
                                 ? Text('')
@@ -960,13 +1097,12 @@ class _SpecsScreenState extends State<SpecsScreen> {
                                       errorStyle:
                                           TextStyle(color: Colors.red[200]),
                                     ),
-                                    validator: (value) {
-                                      if (value == '') {
-                                        return 'This field is required.';
-                                      }
-                                    },
                                     onSaved: (value) {
-                                      _data['message_on_cake'] = value;
+                                      if (value == '') {
+                                        _data['message_on_cake'] = 'N/A';
+                                      } else {
+                                        _data['message_on_cake'] = value;
+                                      }
                                     },
                                   ),
                                   Text(
@@ -1060,28 +1196,7 @@ class _SpecsScreenState extends State<SpecsScreen> {
                           ],
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        Container(
-                          width: double.infinity,
-                          alignment: Alignment.centerRight,
-                          margin: EdgeInsets.symmetric(horizontal: 30),
-                          child: Text(
-                            '*0.5 KG cake cost little more than all other quantities.',
-                            textAlign: TextAlign.end,
-                            style: MediaQuery.of(context).size.width < 600
-                                ? Theme.of(context)
-                                    .primaryTextTheme
-                                    .bodyText2
-                                    .copyWith(color: Colors.red)
-                                : Theme.of(context)
-                                    .primaryTextTheme
-                                    .bodyText1
-                                    .copyWith(color: Colors.red),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
+                          height: MediaQuery.of(context).size.height * 0.04,
                         ),
                         Container(
                           height: 100,
