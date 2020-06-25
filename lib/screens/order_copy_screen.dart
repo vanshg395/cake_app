@@ -120,6 +120,7 @@ class _OrderCopyScreenState extends State<OrderCopyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.data);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
@@ -440,6 +441,67 @@ class _OrderCopyScreenState extends State<OrderCopyScreen> {
                                       ),
                                       Text(
                                         widget.data['shape'],
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyText1
+                                            .copyWith(
+                                              color: Colors.white,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Divider(
+                              thickness: 1,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            MediaQuery.of(context).size.width < 600
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        'EGGLESS',
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyText1
+                                            .copyWith(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w300,
+                                            ),
+                                      ),
+                                      Text(
+                                        widget.data['eggless'] ? 'Yes' : 'No',
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyText1
+                                            .copyWith(
+                                              color: Colors.white,
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                      ),
+                                    ],
+                                  )
+                                : Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'EGGLESS - ',
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyText1
+                                            .copyWith(
+                                              color: Colors.white,
+                                            ),
+                                      ),
+                                      Text(
+                                        widget.data['eggless'] ? 'Yes' : 'No',
                                         style: Theme.of(context)
                                             .primaryTextTheme
                                             .bodyText1

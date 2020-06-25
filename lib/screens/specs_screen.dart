@@ -141,24 +141,26 @@ class _SpecsScreenState extends State<SpecsScreen> {
 
   Widget buildWeightPicker(int maxWeight, bool isHalfKgAvailable) {
     List<DropdownMenuItem> _items = [];
-    for (var i = 1; i <= maxWeight; i++) {
-      setState(() {
-        _items.add(
-          DropdownMenuItem(
-            child: Text('${i - 0.5} KG'),
-            value: i - 0.5,
-          ),
-        );
-        _items.add(
-          DropdownMenuItem(
-            child: Text('$i KG'),
-            value: i * 1.0,
-          ),
-        );
-      });
-    }
-    if (!isHalfKgAvailable) {
-      _items.removeAt(0);
+    if (maxWeight != 0) {
+      for (var i = 1; i <= maxWeight; i++) {
+        setState(() {
+          _items.add(
+            DropdownMenuItem(
+              child: Text('${i - 0.5} KG'),
+              value: i - 0.5,
+            ),
+          );
+          _items.add(
+            DropdownMenuItem(
+              child: Text('$i KG'),
+              value: i * 1.0,
+            ),
+          );
+        });
+      }
+      if (!isHalfKgAvailable) {
+        _items.removeAt(0);
+      }
     }
     return Container(
       width: max(MediaQuery.of(context).size.width * 0.2, 150),
