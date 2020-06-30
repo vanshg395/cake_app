@@ -486,333 +486,591 @@ class _SpecsScreenState extends State<SpecsScreen> {
     //     ['is_egless_available']);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
-      child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            SvgPicture.asset(
-              'assets/img/bg.svg',
-              fit: BoxFit.cover,
-            ),
-            SafeArea(
-              child: Container(
-                width: double.infinity,
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.07,
-                          padding: EdgeInsets.only(
-                            left: 16,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Theme.of(context).primaryColor,
-                                width: 5,
-                              ),
-                            ),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'Specifications',
-                                style: MediaQuery.of(context).size.width < 600
-                                    ? Theme.of(context)
-                                        .primaryTextTheme
-                                        .headline5
-                                    : Theme.of(context)
-                                        .primaryTextTheme
-                                        .headline3,
-                              ),
-                              Spacer(),
-                              InkWell(
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.07,
-                                  color: Theme.of(context).primaryColor,
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.chevron_left,
-                                        color: Colors.white,
-                                        size: Theme.of(context)
-                                            .primaryTextTheme
-                                            .headline4
-                                            .fontSize,
-                                      ),
-                                      Text(
-                                        'Back',
-                                        style:
-                                            MediaQuery.of(context).size.width <
-                                                    600
-                                                ? Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .headline5
-                                                : Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .headline3,
-                                      ),
-                                      SizedBox(
-                                        width: 16,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                              )
-                            ],
-                          ),
+      child: WillPopScope(
+        onWillPop: () async {
+          return false;
+        },
+        child: Scaffold(
+          body: Stack(
+            children: <Widget>[
+              SvgPicture.asset(
+                'assets/img/bg.svg',
+                fit: BoxFit.cover,
+              ),
+              SafeArea(
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        padding: EdgeInsets.only(
+                          left: 16,
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          widget.cakeDetails['cake_name'],
-                          textAlign: TextAlign.center,
-                          style: MediaQuery.of(context).size.width < 600
-                              ? Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline5
-                                  .copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                  )
-                              : Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline3
-                                  .copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        Center(
-                          child: Container(
-                            height: 300,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: Theme.of(context).primaryColor,
-                                width: 5,
-                              ),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: CachedNetworkImage(
-                                imageUrl: widget.cakeDetails['cake_image'],
-                                fit: BoxFit.cover,
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) => Center(
-                                  child: CircularProgressIndicator(
-                                      value: downloadProgress.progress),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                              ),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Theme.of(context).primaryColor,
+                              width: 5,
                             ),
                           ),
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        if (widget.cakeDetails['does_this_have_flavours'])
-                          if (MediaQuery.of(context).size.width < 600)
-                            Center(
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    'Flavour',
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodyText1
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  buildFlavorPicker(
-                                      widget.cakeDetails['flavours']),
-                                ],
-                              ),
-                            )
-                          else
-                            Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    'Flavour',
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodyText1
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  buildFlavorPicker(
-                                      widget.cakeDetails['flavours']),
-                                ],
-                              ),
-                            ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            if (MediaQuery.of(context).size.width < 600) ...[
-                              Column(
-                                children: <Widget>[
-                                  Text(
-                                    'Weight',
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodyText1
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  widget.cakeDetails['does_this_have_flavours']
-                                      ? buildWeightPicker(
-                                          _chosenFlavorIndex == null
-                                              ? 0
-                                              : widget.cakeDetails['flavours']
-                                                      [_chosenFlavorIndex]
-                                                  ['maximum_kgs'],
-                                          widget
-                                              .cakeDetails['half_kg_available'])
-                                      : buildWeightPicker(
-                                          widget.cakeDetails['maximum_kgs'],
-                                          widget.cakeDetails[
-                                              'half_kg_available']),
-                                ],
+                            Text(
+                              'Specifications',
+                              style: MediaQuery.of(context).size.width < 600
+                                  ? Theme.of(context).primaryTextTheme.headline5
+                                  : Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline3,
+                            ),
+                            Spacer(),
+                            InkWell(
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.07,
+                                color: Theme.of(context).primaryColor,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.chevron_left,
+                                      color: Colors.white,
+                                      size: Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline4
+                                          .fontSize,
+                                    ),
+                                    Text(
+                                      'Back',
+                                      style: MediaQuery.of(context).size.width <
+                                              600
+                                          ? Theme.of(context)
+                                              .primaryTextTheme
+                                              .headline5
+                                          : Theme.of(context)
+                                              .primaryTextTheme
+                                              .headline3,
+                                    ),
+                                    SizedBox(
+                                      width: 16,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              Column(
-                                children: <Widget>[
-                                  Text(
-                                    'Quantity',
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodyText1
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  buildQuantityPicker(),
-                                ],
-                              )
-                            ] else ...[
-                              Row(
-                                children: <Widget>[
-                                  Text(
-                                    'Weight',
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodyText1
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  widget.cakeDetails['does_this_have_flavours']
-                                      ? buildWeightPicker(
-                                          _chosenFlavorIndex == null
-                                              ? 0
-                                              : widget.cakeDetails['flavours']
-                                                      [_chosenFlavorIndex]
-                                                  ['maximum_kgs'],
-                                          widget
-                                              .cakeDetails['half_kg_available'])
-                                      : buildWeightPicker(
-                                          widget.cakeDetails['maximum_kgs'],
-                                          widget.cakeDetails[
-                                              'half_kg_available']),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text(
-                                    'Quantity',
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodyText1
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  buildQuantityPicker(),
-                                ],
-                              ),
-                            ]
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                            )
                           ],
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        MediaQuery.of(context).size.width < 600
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    'Shape',
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodyText1
-                                        .copyWith(color: Colors.white),
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  widget.cakeDetails['cake_name'],
+                                  textAlign: TextAlign.center,
+                                  style: MediaQuery.of(context).size.width < 600
+                                      ? Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline5
+                                          .copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700,
+                                          )
+                                      : Theme.of(context)
+                                          .primaryTextTheme
+                                          .headline3
+                                          .copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.03,
+                                ),
+                                Center(
+                                  child: Container(
+                                    height: 300,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Theme.of(context).primaryColor,
+                                        width: 5,
+                                      ),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(5),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            widget.cakeDetails['cake_image'],
+                                        fit: BoxFit.cover,
+                                        progressIndicatorBuilder:
+                                            (context, url, downloadProgress) =>
+                                                Center(
+                                          child: CircularProgressIndicator(
+                                              value: downloadProgress.progress),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                      ),
+                                    ),
                                   ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  buildShapePicker(),
-                                ],
-                              )
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    'Shape',
-                                    style: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodyText1
-                                        .copyWith(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  buildShapePicker(),
-                                ],
-                              ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        widget.cakeDetails['does_this_have_flavours']
-                            ? _chosenFlavorIndex == null
-                                ? Text('')
-                                : Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 30),
-                                    child: widget.cakeDetails['flavours']
-                                                [_chosenFlavorIndex]
-                                            ['is_egless_available']
-                                        ? widget.cakeDetails[
-                                                'is_totally_eggless_cake']
-                                            ? Text(
-                                                'This cake is available in Egless option only. Add ₹${widget.cakeDetails['flavours'][_chosenFlavorIndex]['egg_less_price']}/- per KG extra cost.',
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.03,
+                                ),
+                                if (widget
+                                    .cakeDetails['does_this_have_flavours'])
+                                  if (MediaQuery.of(context).size.width < 600)
+                                    Center(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text(
+                                            'Flavour',
+                                            style: Theme.of(context)
+                                                .primaryTextTheme
+                                                .bodyText1
+                                                .copyWith(color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          buildFlavorPicker(
+                                              widget.cakeDetails['flavours']),
+                                        ],
+                                      ),
+                                    )
+                                  else
+                                    Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(
+                                            'Flavour',
+                                            style: Theme.of(context)
+                                                .primaryTextTheme
+                                                .bodyText1
+                                                .copyWith(color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          buildFlavorPicker(
+                                              widget.cakeDetails['flavours']),
+                                        ],
+                                      ),
+                                    ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.03,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    if (MediaQuery.of(context).size.width <
+                                        600) ...[
+                                      Column(
+                                        children: <Widget>[
+                                          Text(
+                                            'Weight',
+                                            style: Theme.of(context)
+                                                .primaryTextTheme
+                                                .bodyText1
+                                                .copyWith(color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          widget.cakeDetails[
+                                                  'does_this_have_flavours']
+                                              ? buildWeightPicker(
+                                                  _chosenFlavorIndex == null
+                                                      ? 0
+                                                      : widget.cakeDetails[
+                                                                  'flavours'][
+                                                              _chosenFlavorIndex]
+                                                          ['maximum_kgs'],
+                                                  widget.cakeDetails[
+                                                      'half_kg_available'])
+                                              : buildWeightPicker(
+                                                  widget.cakeDetails[
+                                                      'maximum_kgs'],
+                                                  widget.cakeDetails[
+                                                      'half_kg_available']),
+                                        ],
+                                      ),
+                                      Column(
+                                        children: <Widget>[
+                                          Text(
+                                            'Quantity',
+                                            style: Theme.of(context)
+                                                .primaryTextTheme
+                                                .bodyText1
+                                                .copyWith(color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          buildQuantityPicker(),
+                                        ],
+                                      )
+                                    ] else ...[
+                                      Row(
+                                        children: <Widget>[
+                                          Text(
+                                            'Weight',
+                                            style: Theme.of(context)
+                                                .primaryTextTheme
+                                                .bodyText1
+                                                .copyWith(color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          widget.cakeDetails[
+                                                  'does_this_have_flavours']
+                                              ? buildWeightPicker(
+                                                  _chosenFlavorIndex == null
+                                                      ? 0
+                                                      : widget.cakeDetails[
+                                                                  'flavours'][
+                                                              _chosenFlavorIndex]
+                                                          ['maximum_kgs'],
+                                                  widget.cakeDetails[
+                                                      'half_kg_available'])
+                                              : buildWeightPicker(
+                                                  widget.cakeDetails[
+                                                      'maximum_kgs'],
+                                                  widget.cakeDetails[
+                                                      'half_kg_available']),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          Text(
+                                            'Quantity',
+                                            style: Theme.of(context)
+                                                .primaryTextTheme
+                                                .bodyText1
+                                                .copyWith(color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          buildQuantityPicker(),
+                                        ],
+                                      ),
+                                    ]
+                                  ],
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.03,
+                                ),
+                                MediaQuery.of(context).size.width < 600
+                                    ? Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(
+                                            'Shape',
+                                            style: Theme.of(context)
+                                                .primaryTextTheme
+                                                .bodyText1
+                                                .copyWith(color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          buildShapePicker(),
+                                        ],
+                                      )
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Text(
+                                            'Shape',
+                                            style: Theme.of(context)
+                                                .primaryTextTheme
+                                                .bodyText1
+                                                .copyWith(color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          buildShapePicker(),
+                                        ],
+                                      ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.03,
+                                ),
+                                widget.cakeDetails['does_this_have_flavours']
+                                    ? _chosenFlavorIndex == null
+                                        ? Text('')
+                                        : Container(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 30),
+                                            child: widget.cakeDetails[
+                                                            'flavours']
+                                                        [_chosenFlavorIndex]
+                                                    ['is_egless_available']
+                                                ? widget.cakeDetails[
+                                                        'is_totally_eggless_cake']
+                                                    ? Text(
+                                                        'This cake is available in Egless option only. Add ₹${widget.cakeDetails['flavours'][_chosenFlavorIndex]['egg_less_price']}/- per KG extra cost.',
+                                                        style: MediaQuery
+                                                                        .of(
+                                                                            context)
+                                                                    .size
+                                                                    .width <
+                                                                600
+                                                            ? Theme.of(context)
+                                                                .primaryTextTheme
+                                                                .bodyText2
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .red)
+                                                            : Theme.of(context)
+                                                                .primaryTextTheme
+                                                                .bodyText1
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .red),
+                                                      )
+                                                    : Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: <Widget>[
+                                                          Checkbox(
+                                                            checkColor: Theme
+                                                                    .of(context)
+                                                                .primaryColor,
+                                                            activeColor:
+                                                                Colors.white,
+                                                            value: _isEggless,
+                                                            onChanged: (val) {
+                                                              setState(() {
+                                                                _isEggless =
+                                                                    val;
+                                                                _data['eggless'] =
+                                                                    val;
+                                                                if (val) {
+                                                                  _cost1kg +=
+                                                                      50;
+                                                                  _costhalfkg +=
+                                                                      25;
+                                                                } else {
+                                                                  _cost1kg -=
+                                                                      50;
+                                                                  _costhalfkg -=
+                                                                      25;
+                                                                }
+                                                              });
+                                                            },
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Text(
+                                                            'Eggless',
+                                                            style: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width <
+                                                                    600
+                                                                ? Theme.of(
+                                                                        context)
+                                                                    .primaryTextTheme
+                                                                    .bodyText2
+                                                                    .copyWith(
+                                                                        color: Colors
+                                                                            .white)
+                                                                : Theme.of(
+                                                                        context)
+                                                                    .primaryTextTheme
+                                                                    .bodyText1
+                                                                    .copyWith(
+                                                                        color: Colors
+                                                                            .white),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Flexible(
+                                                            child: Text(
+                                                              '(If you choose Eggless Add ₹${widget.cakeDetails['flavours'][_chosenFlavorIndex]['egg_less_price']}/- per KG extra cost.)',
+                                                              style: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width <
+                                                                      600
+                                                                  ? Theme.of(
+                                                                          context)
+                                                                      .primaryTextTheme
+                                                                      .bodyText2
+                                                                      .copyWith(
+                                                                          color: Colors
+                                                                              .red)
+                                                                  : Theme.of(
+                                                                          context)
+                                                                      .primaryTextTheme
+                                                                      .bodyText1
+                                                                      .copyWith(
+                                                                          color:
+                                                                              Colors.red),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                : Text(
+                                                    'Eggless option is not available for this Cake',
+                                                    style: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width <
+                                                            600
+                                                        ? Theme.of(context)
+                                                            .primaryTextTheme
+                                                            .bodyText2
+                                                            .copyWith(
+                                                                color:
+                                                                    Colors.red)
+                                                        : Theme.of(context)
+                                                            .primaryTextTheme
+                                                            .bodyText1
+                                                            .copyWith(
+                                                                color:
+                                                                    Colors.red),
+                                                  ),
+                                          )
+                                    : Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 30),
+                                        child: widget.cakeDetails[
+                                                'is_egless_available']
+                                            ? widget.cakeDetails[
+                                                    'is_totally_eggless_cake']
+                                                ? Text(
+                                                    'This cake is available in Egless option only. Add ₹${widget.cakeDetails['egg_less_price']}/- per KG extra cost.',
+                                                    style: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width <
+                                                            600
+                                                        ? Theme.of(context)
+                                                            .primaryTextTheme
+                                                            .bodyText2
+                                                            .copyWith(
+                                                                color:
+                                                                    Colors.red)
+                                                        : Theme.of(context)
+                                                            .primaryTextTheme
+                                                            .bodyText1
+                                                            .copyWith(
+                                                                color:
+                                                                    Colors.red),
+                                                  )
+                                                : Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Checkbox(
+                                                        checkColor:
+                                                            Theme.of(context)
+                                                                .primaryColor,
+                                                        activeColor:
+                                                            Colors.white,
+                                                        value: _isEggless,
+                                                        onChanged: (val) {
+                                                          setState(() {
+                                                            _isEggless = val;
+                                                            _data['eggless'] =
+                                                                val;
+                                                            if (val) {
+                                                              _cost1kg += 50;
+                                                              _costhalfkg += 25;
+                                                            } else {
+                                                              _cost1kg -= 50;
+                                                              _costhalfkg -= 25;
+                                                            }
+                                                          });
+                                                        },
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        'Eggless',
+                                                        style: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width <
+                                                                600
+                                                            ? Theme.of(context)
+                                                                .primaryTextTheme
+                                                                .bodyText2
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .white)
+                                                            : Theme.of(context)
+                                                                .primaryTextTheme
+                                                                .bodyText1
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .white),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Flexible(
+                                                        child: Text(
+                                                          '(If you choose Eggless Add ₹${widget.cakeDetails['egg_less_price']}/- per KG extra cost.)',
+                                                          style: MediaQuery
+                                                                          .of(
+                                                                              context)
+                                                                      .size
+                                                                      .width <
+                                                                  600
+                                                              ? Theme.of(
+                                                                      context)
+                                                                  .primaryTextTheme
+                                                                  .bodyText2
+                                                                  .copyWith(
+                                                                      color: Colors
+                                                                          .red)
+                                                              : Theme.of(
+                                                                      context)
+                                                                  .primaryTextTheme
+                                                                  .bodyText1
+                                                                  .copyWith(
+                                                                      color: Colors
+                                                                          .red),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                            : Text(
+                                                'Eggless option is not available for this Cake',
                                                 style: MediaQuery.of(context)
                                                             .size
                                                             .width <
@@ -827,475 +1085,323 @@ class _SpecsScreenState extends State<SpecsScreen> {
                                                         .bodyText1
                                                         .copyWith(
                                                             color: Colors.red),
-                                              )
-                                            : Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Checkbox(
-                                                    checkColor:
-                                                        Theme.of(context)
-                                                            .primaryColor,
-                                                    activeColor: Colors.white,
-                                                    value: _isEggless,
-                                                    onChanged: (val) {
-                                                      setState(() {
-                                                        _isEggless = val;
-                                                        _data['eggless'] = val;
-                                                        if (val) {
-                                                          _cost1kg += 50;
-                                                          _costhalfkg += 25;
-                                                        } else {
-                                                          _cost1kg -= 50;
-                                                          _costhalfkg -= 25;
-                                                        }
-                                                      });
-                                                    },
-                                                  ),
-                                                  SizedBox(
-                                                    width: 5,
-                                                  ),
-                                                  Text(
-                                                    'Eggless',
-                                                    style: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width <
-                                                            600
-                                                        ? Theme.of(context)
-                                                            .primaryTextTheme
-                                                            .bodyText2
-                                                            .copyWith(
-                                                                color: Colors
-                                                                    .white)
-                                                        : Theme.of(context)
-                                                            .primaryTextTheme
-                                                            .bodyText1
-                                                            .copyWith(
-                                                                color: Colors
-                                                                    .white),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Flexible(
-                                                    child: Text(
-                                                      '(If you choose Eggless Add ₹${widget.cakeDetails['flavours'][_chosenFlavorIndex]['egg_less_price']}/- per KG extra cost.)',
-                                                      style: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width <
-                                                              600
-                                                          ? Theme.of(context)
-                                                              .primaryTextTheme
-                                                              .bodyText2
-                                                              .copyWith(
-                                                                  color: Colors
-                                                                      .red)
-                                                          : Theme.of(context)
-                                                              .primaryTextTheme
-                                                              .bodyText1
-                                                              .copyWith(
-                                                                  color: Colors
-                                                                      .red),
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                        : Text(
-                                            'Eggless option is not available for this Cake',
-                                            style: MediaQuery.of(context)
-                                                        .size
-                                                        .width <
-                                                    600
-                                                ? Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .bodyText2
-                                                    .copyWith(color: Colors.red)
-                                                : Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .bodyText1
-                                                    .copyWith(
-                                                        color: Colors.red),
-                                          ),
-                                  )
-                            : Container(
-                                margin: EdgeInsets.symmetric(horizontal: 30),
-                                child: widget.cakeDetails['is_egless_available']
-                                    ? widget.cakeDetails[
-                                            'is_totally_eggless_cake']
-                                        ? Text(
-                                            'This cake is available in Egless option only. Add ₹${widget.cakeDetails['egg_less_price']}/- per KG extra cost.',
-                                            style: MediaQuery.of(context)
-                                                        .size
-                                                        .width <
-                                                    600
-                                                ? Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .bodyText2
-                                                    .copyWith(color: Colors.red)
-                                                : Theme.of(context)
-                                                    .primaryTextTheme
-                                                    .bodyText1
-                                                    .copyWith(
-                                                        color: Colors.red),
-                                          )
-                                        : Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Checkbox(
-                                                checkColor: Theme.of(context)
-                                                    .primaryColor,
-                                                activeColor: Colors.white,
-                                                value: _isEggless,
-                                                onChanged: (val) {
-                                                  setState(() {
-                                                    _isEggless = val;
-                                                    _data['eggless'] = val;
-                                                    if (val) {
-                                                      _cost1kg += 50;
-                                                      _costhalfkg += 25;
-                                                    } else {
-                                                      _cost1kg -= 50;
-                                                      _costhalfkg -= 25;
-                                                    }
-                                                  });
-                                                },
                                               ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                'Eggless',
-                                                style: MediaQuery.of(context)
-                                                            .size
-                                                            .width <
-                                                        600
-                                                    ? Theme.of(context)
-                                                        .primaryTextTheme
-                                                        .bodyText2
-                                                        .copyWith(
-                                                            color: Colors.white)
-                                                    : Theme.of(context)
-                                                        .primaryTextTheme
-                                                        .bodyText1
-                                                        .copyWith(
-                                                            color:
-                                                                Colors.white),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Flexible(
-                                                child: Text(
-                                                  '(If you choose Eggless Add ₹${widget.cakeDetails['egg_less_price']}/- per KG extra cost.)',
-                                                  style: MediaQuery.of(context)
-                                                              .size
-                                                              .width <
-                                                          600
-                                                      ? Theme.of(context)
-                                                          .primaryTextTheme
-                                                          .bodyText2
-                                                          .copyWith(
-                                                              color: Colors.red)
-                                                      : Theme.of(context)
-                                                          .primaryTextTheme
-                                                          .bodyText1
-                                                          .copyWith(
-                                                              color:
-                                                                  Colors.red),
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                    : Text(
-                                        'Eggless option is not available for this Cake',
-                                        style: MediaQuery.of(context)
-                                                    .size
-                                                    .width <
-                                                600
-                                            ? Theme.of(context)
-                                                .primaryTextTheme
-                                                .bodyText2
-                                                .copyWith(color: Colors.red)
-                                            : Theme.of(context)
-                                                .primaryTextTheme
-                                                .bodyText1
-                                                .copyWith(color: Colors.red),
                                       ),
-                              ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.start,
-                          spacing: 10,
-                          runSpacing: 20,
-                          alignment: WrapAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                horizontal: 30,
-                              ),
-                              width: MediaQuery.of(context).size.width < 600
-                                  ? double.infinity
-                                  : 300,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'Message On Cake',
-                                    style:
-                                        MediaQuery.of(context).size.width < 600
-                                            ? Theme.of(context)
-                                                .primaryTextTheme
-                                                .bodyText2
-                                                .copyWith(color: Colors.white)
-                                            : Theme.of(context)
-                                                .primaryTextTheme
-                                                .bodyText1
-                                                .copyWith(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  TextFormField(
-                                    maxLength: 50,
-                                    decoration: InputDecoration(
-                                      counterStyle:
-                                          TextStyle(color: Colors.white),
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.03,
+                                ),
+                                Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.start,
+                                  spacing: 10,
+                                  runSpacing: 20,
+                                  alignment: WrapAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.symmetric(
+                                        horizontal: 30,
                                       ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      errorStyle:
-                                          TextStyle(color: Colors.red[200]),
-                                    ),
-                                    onSaved: (value) {
-                                      if (value == '') {
-                                        _data['message_on_cake'] = 'N/A';
-                                      } else {
-                                        _data['message_on_cake'] = value;
-                                      }
-                                    },
-                                  ),
-                                  Text(
-                                    'Special Characters other than *!@ not allowed.',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w100,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.symmetric(
-                                horizontal: 30,
-                              ),
-                              width: MediaQuery.of(context).size.width < 600
-                                  ? double.infinity
-                                  : 300,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'Special Instructions',
-                                    style:
-                                        MediaQuery.of(context).size.width < 600
-                                            ? Theme.of(context)
-                                                .primaryTextTheme
-                                                .bodyText2
-                                                .copyWith(color: Colors.white)
-                                            : Theme.of(context)
-                                                .primaryTextTheme
-                                                .bodyText1
-                                                .copyWith(color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(2),
-                                        borderSide: BorderSide(
-                                          width: 0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                    onSaved: (value) {
-                                      if (value == '') {
-                                        _data['special_instructions'] = 'N/A';
-                                      } else {
-                                        _data['special_instructions'] = value;
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.04,
-                        ),
-                        Container(
-                          height: 100,
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).accentColor,
-                            border: Border.all(
-                              color: Theme.of(context).primaryColor,
-                              width: 5,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 20,
-                                spreadRadius: 3,
-                                offset: Offset(1, 1),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Text(
-                                'TOTAL AMOUNT = ₹ $price',
-                                style: MediaQuery.of(context).size.width < 600
-                                    ? Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodyText1
-                                        .copyWith(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                        )
-                                    : Theme.of(context)
-                                        .primaryTextTheme
-                                        .headline5,
-                              ),
-                              MediaQuery.of(context).size.width < 600
-                                  ? InkWell(
-                                      child: Container(
-                                        padding: EdgeInsets.all(5),
-                                        child: Icon(
-                                          Icons.done,
-                                          color: Colors.white,
-                                        ),
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(context).primaryColor,
-                                          shape: BoxShape.circle,
-                                          boxShadow: [
-                                            BoxShadow(
-                                                blurRadius: 10,
-                                                spreadRadius: 0.1),
-                                          ],
-                                        ),
-                                      ),
-                                      onTap: _submit,
-                                    )
-                                  : CommonButton(
-                                      title: 'Check Out',
-                                      borderRadius: 30,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width <
-                                                  600
-                                              ? 16
-                                              : 26,
                                       width: MediaQuery.of(context).size.width <
                                               600
-                                          ? 200
-                                          : 250,
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Theme.of(context).primaryColor,
-                                          Theme.of(context).primaryColor,
+                                          ? double.infinity
+                                          : 300,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Message On Cake',
+                                            style: MediaQuery.of(context)
+                                                        .size
+                                                        .width <
+                                                    600
+                                                ? Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .bodyText2
+                                                    .copyWith(
+                                                        color: Colors.white)
+                                                : Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .bodyText1
+                                                    .copyWith(
+                                                        color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          TextFormField(
+                                            maxLength: 50,
+                                            decoration: InputDecoration(
+                                              counterStyle: TextStyle(
+                                                  color: Colors.white),
+                                              filled: true,
+                                              fillColor: Colors.white,
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(2),
+                                                borderSide: BorderSide(
+                                                  width: 0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(2),
+                                                borderSide: BorderSide(
+                                                  width: 0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(2),
+                                                borderSide: BorderSide(
+                                                  width: 0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              errorBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(2),
+                                                borderSide: BorderSide(
+                                                  width: 0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              focusedErrorBorder:
+                                                  OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(2),
+                                                borderSide: BorderSide(
+                                                  width: 0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              errorStyle: TextStyle(
+                                                  color: Colors.red[200]),
+                                            ),
+                                            onSaved: (value) {
+                                              if (value == '') {
+                                                _data['message_on_cake'] =
+                                                    'N/A';
+                                              } else {
+                                                _data['message_on_cake'] =
+                                                    value;
+                                              }
+                                            },
+                                          ),
+                                          Text(
+                                            'Special Characters other than *!@ not allowed.',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w100,
+                                              fontSize: 12,
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                      onPressed: _submit,
                                     ),
-                            ],
+                                    Container(
+                                      margin: EdgeInsets.symmetric(
+                                        horizontal: 30,
+                                      ),
+                                      width: MediaQuery.of(context).size.width <
+                                              600
+                                          ? double.infinity
+                                          : 300,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Special Instructions',
+                                            style: MediaQuery.of(context)
+                                                        .size
+                                                        .width <
+                                                    600
+                                                ? Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .bodyText2
+                                                    .copyWith(
+                                                        color: Colors.white)
+                                                : Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .bodyText1
+                                                    .copyWith(
+                                                        color: Colors.white),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          TextFormField(
+                                            decoration: InputDecoration(
+                                              filled: true,
+                                              fillColor: Colors.white,
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(2),
+                                                borderSide: BorderSide(
+                                                  width: 0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(2),
+                                                borderSide: BorderSide(
+                                                  width: 0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(2),
+                                                borderSide: BorderSide(
+                                                  width: 0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              errorBorder: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(2),
+                                                borderSide: BorderSide(
+                                                  width: 0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              focusedErrorBorder:
+                                                  OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(2),
+                                                borderSide: BorderSide(
+                                                  width: 0,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                            onSaved: (value) {
+                                              if (value == '') {
+                                                _data['special_instructions'] =
+                                                    'N/A';
+                                              } else {
+                                                _data['special_instructions'] =
+                                                    value;
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.04,
+                                ),
+                                Container(
+                                  height: 100,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).accentColor,
+                                    border: Border.all(
+                                      color: Theme.of(context).primaryColor,
+                                      width: 5,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 20,
+                                        spreadRadius: 3,
+                                        offset: Offset(1, 1),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Text(
+                                        'TOTAL AMOUNT = ₹ $price',
+                                        style:
+                                            MediaQuery.of(context).size.width <
+                                                    600
+                                                ? Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .bodyText1
+                                                    .copyWith(
+                                                      fontSize: 16,
+                                                      color: Colors.white,
+                                                    )
+                                                : Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .headline5,
+                                      ),
+                                      MediaQuery.of(context).size.width < 600
+                                          ? InkWell(
+                                              child: Container(
+                                                padding: EdgeInsets.all(5),
+                                                child: Icon(
+                                                  Icons.done,
+                                                  color: Colors.white,
+                                                ),
+                                                height: 50,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  shape: BoxShape.circle,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        blurRadius: 10,
+                                                        spreadRadius: 0.1),
+                                                  ],
+                                                ),
+                                              ),
+                                              onTap: _submit,
+                                            )
+                                          : CommonButton(
+                                              title: 'Check Out',
+                                              borderRadius: 30,
+                                              fontSize: MediaQuery.of(context)
+                                                          .size
+                                                          .width <
+                                                      600
+                                                  ? 16
+                                                  : 26,
+                                              width: MediaQuery.of(context)
+                                                          .size
+                                                          .width <
+                                                      600
+                                                  ? 200
+                                                  : 250,
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Theme.of(context)
+                                                      .primaryColor,
+                                                  Theme.of(context)
+                                                      .primaryColor,
+                                                ],
+                                              ),
+                                              onPressed: _submit,
+                                            ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

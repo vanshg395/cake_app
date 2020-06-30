@@ -123,697 +123,713 @@ class _OrderCopyScreenState extends State<OrderCopyScreen> {
     print(widget.data);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
-      child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            SvgPicture.asset(
-              'assets/img/bg.svg',
-              fit: BoxFit.cover,
-            ),
-            SafeArea(
-              child: Container(
-                width: double.infinity,
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        padding: EdgeInsets.only(
-                          left: 16,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Theme.of(context).primaryColor,
-                              width: 5,
+      child: WillPopScope(
+        onWillPop: () async {
+          return false;
+        },
+        child: Scaffold(
+          body: Stack(
+            children: <Widget>[
+              SvgPicture.asset(
+                'assets/img/bg.svg',
+                fit: BoxFit.cover,
+              ),
+              SafeArea(
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.07,
+                          padding: EdgeInsets.only(
+                            left: 16,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 5,
+                              ),
                             ),
                           ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                'Order Copy',
+                                style: MediaQuery.of(context).size.width < 600
+                                    ? Theme.of(context)
+                                        .primaryTextTheme
+                                        .headline5
+                                    : Theme.of(context)
+                                        .primaryTextTheme
+                                        .headline3,
+                              ),
+                              Spacer(),
+                              InkWell(
+                                child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.07,
+                                  color: Theme.of(context).primaryColor,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.chevron_left,
+                                        color: Colors.white,
+                                        size: Theme.of(context)
+                                            .primaryTextTheme
+                                            .headline4
+                                            .fontSize,
+                                      ),
+                                      Text(
+                                        'Back',
+                                        style:
+                                            MediaQuery.of(context).size.width <
+                                                    600
+                                                ? Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .headline5
+                                                : Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .headline3,
+                                      ),
+                                      SizedBox(
+                                        width: 16,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          ),
                         ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              'Order Copy',
-                              style: MediaQuery.of(context).size.width < 600
-                                  ? Theme.of(context).primaryTextTheme.headline5
-                                  : Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline3,
-                            ),
-                            Spacer(),
-                            InkWell(
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.07,
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width < 600
+                                ? 16
+                                : 30,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              MediaQuery.of(context).size.width < 600
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'NAME',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.name,
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'NAME - ',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.name,
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Divider(
+                                thickness: 1,
                                 color: Theme.of(context).primaryColor,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.chevron_left,
-                                      color: Colors.white,
-                                      size: Theme.of(context)
-                                          .primaryTextTheme
-                                          .headline4
-                                          .fontSize,
-                                    ),
-                                    Text(
-                                      'Back',
-                                      style: MediaQuery.of(context).size.width <
-                                              600
-                                          ? Theme.of(context)
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              MediaQuery.of(context).size.width < 600
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'PHONE NUMBER',
+                                          style: Theme.of(context)
                                               .primaryTextTheme
-                                              .headline5
-                                          : Theme.of(context)
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.phone,
+                                          style: Theme.of(context)
                                               .primaryTextTheme
-                                              .headline3,
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'PHONE NUMBER - ',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.phone,
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                      ],
                                     ),
-                                    SizedBox(
-                                      width: 16,
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Divider(
+                                thickness: 1,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              MediaQuery.of(context).size.width < 600
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'CAKE TYPE',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.cakeType,
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'CAKE TYPE - ',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.cakeType,
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Divider(
+                                thickness: 1,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              MediaQuery.of(context).size.width < 600
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'SHAPE',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.data['shape'],
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'SHAPE - ',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.data['shape'],
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Divider(
+                                thickness: 1,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              MediaQuery.of(context).size.width < 600
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'EGGLESS',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.data['eggless'] ? 'Yes' : 'No',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'EGGLESS - ',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.data['eggless'] ? 'Yes' : 'No',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Divider(
+                                thickness: 1,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              MediaQuery.of(context).size.width < 600
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'WEIGHT',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.weight.toString(),
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'WEIGHT - ',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.weight.toString(),
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Divider(
+                                thickness: 1,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              MediaQuery.of(context).size.width < 600
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'QUANTITY',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.quantity.toString(),
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'QUANTITY - ',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.quantity.toString(),
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Divider(
+                                thickness: 1,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              MediaQuery.of(context).size.width < 600
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'DATE/TIME OF DELIVERY',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                        ),
+                                        Text(
+                                          DateFormat.yMMMd().format(
+                                                DateTime.parse(
+                                                  widget
+                                                      .data['date_of_delivery'],
+                                                ),
+                                              ) +
+                                              ' | ' +
+                                              TimeOfDay.fromDateTime(
+                                                DateTime.parse(
+                                                  widget
+                                                      .data['date_of_delivery'],
+                                                ),
+                                              ).format(context),
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'DATE/TIME OF DELIVERY - ',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                        Text(
+                                          DateFormat.yMMMd().format(
+                                                DateTime.parse(
+                                                  widget
+                                                      .data['date_of_delivery'],
+                                                ),
+                                              ) +
+                                              ' | ' +
+                                              TimeOfDay.fromDateTime(
+                                                DateTime.parse(
+                                                  widget
+                                                      .data['date_of_delivery'],
+                                                ),
+                                              ).format(context),
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Divider(
+                                thickness: 1,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              MediaQuery.of(context).size.width < 600
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'TOTAL AMOUNT',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w300,
+                                              ),
+                                        ),
+                                        Text(
+                                          widget.price.toString(),
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'TOTAL AMOUNT - ',
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                        Text(
+                                          '₹ ' +
+                                              widget.price.toStringAsFixed(2),
+                                          style: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodyText1
+                                              .copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Divider(
+                                thickness: 1,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.1,
+                              ),
+                              Center(
+                                child: CommonButton(
+                                  title: 'Confirm',
+                                  borderRadius: 30,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width < 600
+                                          ? 16
+                                          : 26,
+                                  width: MediaQuery.of(context).size.width < 600
+                                      ? 200
+                                      : 250,
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Theme.of(context).primaryColor,
+                                      Theme.of(context).primaryColor,
+                                    ],
+                                  ),
+                                  onPressed: _submit,
                                 ),
                               ),
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                            )
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.symmetric(
-                          horizontal:
-                              MediaQuery.of(context).size.width < 600 ? 16 : 30,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            MediaQuery.of(context).size.width < 600
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        'NAME',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.name,
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                      ),
-                                    ],
-                                  )
-                                : Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'NAME - ',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.name,
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Divider(
-                              thickness: 1,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            MediaQuery.of(context).size.width < 600
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        'PHONE NUMBER',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.phone,
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                      ),
-                                    ],
-                                  )
-                                : Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'PHONE NUMBER - ',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.phone,
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Divider(
-                              thickness: 1,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            MediaQuery.of(context).size.width < 600
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        'CAKE TYPE',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.cakeType,
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                      ),
-                                    ],
-                                  )
-                                : Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'CAKE TYPE - ',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.cakeType,
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Divider(
-                              thickness: 1,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            MediaQuery.of(context).size.width < 600
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        'SHAPE',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.data['shape'],
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                      ),
-                                    ],
-                                  )
-                                : Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'SHAPE - ',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.data['shape'],
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Divider(
-                              thickness: 1,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            MediaQuery.of(context).size.width < 600
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        'EGGLESS',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.data['eggless'] ? 'Yes' : 'No',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                      ),
-                                    ],
-                                  )
-                                : Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'EGGLESS - ',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.data['eggless'] ? 'Yes' : 'No',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Divider(
-                              thickness: 1,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            MediaQuery.of(context).size.width < 600
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        'WEIGHT',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.weight.toString(),
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                      ),
-                                    ],
-                                  )
-                                : Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'WEIGHT - ',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.weight.toString(),
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Divider(
-                              thickness: 1,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            MediaQuery.of(context).size.width < 600
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        'QUANTITY',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.quantity.toString(),
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                      ),
-                                    ],
-                                  )
-                                : Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'QUANTITY - ',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.quantity.toString(),
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Divider(
-                              thickness: 1,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            MediaQuery.of(context).size.width < 600
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        'DATE/TIME OF DELIVERY',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                      ),
-                                      Text(
-                                        DateFormat.yMMMd().format(
-                                              DateTime.parse(
-                                                widget.data['date_of_delivery'],
-                                              ),
-                                            ) +
-                                            ' | ' +
-                                            TimeOfDay.fromDateTime(
-                                              DateTime.parse(
-                                                widget.data['date_of_delivery'],
-                                              ),
-                                            ).format(context),
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                      ),
-                                    ],
-                                  )
-                                : Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'DATE/TIME OF DELIVERY - ',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                      Text(
-                                        DateFormat.yMMMd().format(
-                                              DateTime.parse(
-                                                widget.data['date_of_delivery'],
-                                              ),
-                                            ) +
-                                            ' | ' +
-                                            TimeOfDay.fromDateTime(
-                                              DateTime.parse(
-                                                widget.data['date_of_delivery'],
-                                              ),
-                                            ).format(context),
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Divider(
-                              thickness: 1,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            MediaQuery.of(context).size.width < 600
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        'TOTAL AMOUNT',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                      ),
-                                      Text(
-                                        widget.price.toString(),
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                      ),
-                                    ],
-                                  )
-                                : Row(
-                                    children: <Widget>[
-                                      Text(
-                                        'TOTAL AMOUNT - ',
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                      Text(
-                                        '₹ ' + widget.price.toStringAsFixed(2),
-                                        style: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodyText1
-                                            .copyWith(
-                                              color: Colors.white,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Divider(
-                              thickness: 1,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.1,
-                            ),
-                            Center(
-                              child: CommonButton(
-                                title: 'Confirm',
-                                borderRadius: 30,
-                                fontSize:
-                                    MediaQuery.of(context).size.width < 600
-                                        ? 16
-                                        : 26,
-                                width: MediaQuery.of(context).size.width < 600
-                                    ? 200
-                                    : 250,
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Theme.of(context).primaryColor,
-                                    Theme.of(context).primaryColor,
-                                  ],
-                                ),
-                                onPressed: _submit,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
